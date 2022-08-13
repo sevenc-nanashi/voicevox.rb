@@ -2,8 +2,9 @@
 
 require_relative "voicevox/version"
 require_relative "voicevox/core"
+require_relative "voicevox/wrapper/info"
 
-module Voicevox
+class Voicevox
   class Error < StandardError; end
 
   # Your code goes here...
