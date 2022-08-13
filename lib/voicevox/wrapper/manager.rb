@@ -70,5 +70,7 @@ class Voicevox
 
   class << self
     attr_accessor :initialized
+
+    alias initialized? initialized
   end
 end

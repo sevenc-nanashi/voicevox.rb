@@ -5,7 +5,7 @@ class Voicevox
   # Voicevoxが初期化されていなかったらエラーを出す。
   #
   def self.initialize_required
-    raise Voicevox::Error, "Voicevoxが初期化されていません" unless initialized?
+    raise Voicevox::Error, "Voicevoxが初期化されていません" unless Voicevox.initialized?
   end
 
   #
