@@ -1,4 +1,5 @@
 require "etc"
+require "objspace"
 
 class Voicevox
   @initialized = false
@@ -7,6 +8,7 @@ class Voicevox
   # Voicevoxクラスのインスタンスを初期化します。
   #
   def initialize
+    ObjectSpace.define_finalizer(self, Voicevox.finalizer)
   end
 
   #
@@ -23,18 +25,22 @@ class Voicevox
   #
   # @param [Boolean, :auto] use_gpu GPUを使うかどうか。:autoを指定するとDirectML、またはCUDAが使える場合にtrueになります。
   # @param [Integer] threads スレッド数。省略するとEtc.nprocessorsの値になります。
-  # @param [Boolean] load_model モデルを読み込むかどうか。省略するとtrueになります。
+  # @param [Boolean] load_all_models 全てのモデルを読み込むかどうか。省略するとtrueになります。
   #
-  def init(use_gpu: :auto, threads: nil, load_model: true)
+  def init(use_gpu: :auto, threads: nil, load_all_models: true)
     @use_gpu = use_gpu == :auto ? Voicevox.supported_devices.cuda || Voicevox.supported_devices.dml : use_gpu
     @threads = threads || Etc.nprocessors
-    @load_model = load_model
-    Voicevox::Core.initialize(@use_gpu, @threads, @load_model) or Voicevox.failed
+    @load_all_models = load_all_models
+    Voicevox::Core.initialize(@use_gpu, @threads, @load_all_models) or Voicevox.failed unless initialized?
     self.class.initialized = true
   end
 
   class << self
     attr_accessor :initialized
+
+    def finalizer
+      proc { Voicevox::Core.finalize }
+    end
   end
 
   private
