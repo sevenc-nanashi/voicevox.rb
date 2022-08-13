@@ -24,9 +24,7 @@ class Voicevox
   def self.process_result(result)
     return if result == :voicevox_result_succeed
 
-    message = Voicevox::Core.voicevox_error_result_to_message(result).force_encoding("UTF-8")
-    raise Voicevox::Error,
-          "#{message} (#{result})"
+    raise Voicevox::CoreError.from_code(result)
   end
 
   #
