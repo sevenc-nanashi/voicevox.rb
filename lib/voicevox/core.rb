@@ -5,7 +5,7 @@ rescue LoadError
   # 何もせず無視
 else
   # Voicevox製品版のcore.dllを使う
-  RubyInstaller::Runtime.add_dll_directory(ENV["LOCALAPPDATA"] + "/programs/voicevox")
+  RubyInstaller::Runtime.add_dll_directory(Voicevox.voicevox_path)
 end
 
 module Voicevox::Core
