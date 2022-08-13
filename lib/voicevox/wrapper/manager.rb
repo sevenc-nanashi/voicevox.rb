@@ -48,7 +48,7 @@ class Voicevox
 
   private
 
-  def require_initialize
+  def self.initialize_required
     raise Voicevox::Error, "Voicevoxが初期化されていません" unless initialized?
   end
 end
