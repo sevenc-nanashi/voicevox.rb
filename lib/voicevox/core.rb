@@ -1,4 +1,12 @@
 require "ffi"
+begin
+  require "ruby_installer"
+rescue LoadError
+  # 何もせず無視
+else
+  # Voicevox製品版のcore.dllを使う
+  RubyInstaller::Runtime.add_dll_directory(ENV["LOCALAPPDATA"] + "/programs/voicevox")
+end
 
 module Voicevox::Core
   extend FFI::Library
