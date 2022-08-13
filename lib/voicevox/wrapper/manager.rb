@@ -65,7 +65,10 @@ class Voicevox
     id = speaker.is_a?(Integer) ? speaker : speaker.id
     Voicevox.process_result Voicevox::Core.voicevox_tts(text, id, size_ptr, return_ptr)
     data_ptr = return_ptr.read_pointer
-    data_ptr.read_string(size_ptr.read_int)
+    size_ptr.free
+    data = data_ptr.read_string(size_ptr.read_int)
+    Voicevox::Core.voicevox_wav_free(data_ptr)
+    data
   end
 
   class << self
