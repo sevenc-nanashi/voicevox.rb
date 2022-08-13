@@ -39,6 +39,7 @@ class Voicevox
   #
   def finalize
     Voicevox::Core.finalize or Voicevox.failed
+    self.class.initialized = false
   end
 
   class << self
