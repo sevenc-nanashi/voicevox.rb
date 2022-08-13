@@ -71,6 +71,28 @@ class Voicevox
     data
   end
 
+  #
+  # voicevox_tts_from_kanaを使って音声を生成します。
+  #
+  # @param [String] text AquesTalkライクな記法で記述された生成するテキスト。
+  # @param [Voicevox::CharacterInfo, Voicevox::CharacterInfo, Integer] speaker 話者、または話者のID。
+  #
+  # @return [String] 生成された音声のwavデータ。
+  #
+  def tts_from_kana(text, speaker)
+    size_ptr = FFI::MemoryPointer.new(:int)
+    return_ptr = FFI::MemoryPointer.new(:pointer)
+    id = speaker.is_a?(Integer) ? speaker : speaker.id
+    Voicevox.process_result Voicevox::Core.voicevox_tts_from_kana(text, id, size_ptr, return_ptr)
+    data_ptr = return_ptr.read_pointer
+    size_ptr.free
+    data = data_ptr.read_string(size_ptr.read_int)
+    Voicevox::Core.voicevox_wav_free(data_ptr)
+    data
+  end
+
+  alias aquestalk_tts tts_from_kana
+
   class << self
     attr_accessor :initialized
 
