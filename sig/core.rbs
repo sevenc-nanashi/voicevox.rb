@@ -1,0 +1,76 @@
+module Voicevox::Core
+  extend FFI::Library
+
+  type voicevox_result_code =
+    :voicevox_result_succeed
+    | :voicevox_result_not_loaded_openjtalk_dict
+    | :voicevox_result_failed_load_model
+    | :voicevox_result_failed_get_supported_devices
+    | :voicevox_result_cant_gpu_support
+    | :voicevox_result_failed_load_metas
+    | :voicevox_result_uninitialized_status
+    | :voicevox_result_invalid_speaker_id
+    | :voicevox_result_invalid_model_index
+    | :voicevox_result_inference_failed
+    | :voicevox_result_failed_extract_full_context_label
+    | :voicevox_result_invalid_utf8_input
+    | :voicevox_result_failed_parse_kana
+
+  def initialize: (
+    bool use_gpu,
+    Integer cpu_num_threads,
+    bool load_all_models
+  ) -> bool
+
+  def load_model: (Integer speaker_id) -> bool
+
+  def is_model_loaded: (Integer speaker_id) -> bool
+
+  def finalize: -> void
+
+  def metas: -> String
+
+  def last_error_message: -> String
+
+  def supported_devices: -> String
+
+  def yukarin_s_forward: (
+    Integer length,
+    FFI::Pointer phoneme_list,
+    FFI::Pointer speaker_id,
+    FFI::Pointer output
+  ) -> bool
+
+  def yukarin_sa_forward: (
+    Integer length,
+    FFI::Pointer vowel_phoneme_list,
+    FFI::Pointer consonant_phoneme_list,
+    FFI::Pointer start_accent_list,
+    FFI::Pointer end_accent_list,
+    FFI::Pointer start_accent_phrase_list,
+    FFI::Pointer end_accent_phrase_list,
+    FFI::Pointer speaker_id
+  ) -> bool
+
+  def decode_forward: (
+    Integer length,
+    Integer phoneme_size,
+    FFI::Pointer f0,
+    FFI::Pointer phoneme,
+    FFI::Pointer speaker_id,
+    FFI::Pointer output
+  ) -> bool
+
+  def voicevox_load_openjtalk_dict: (String dict_path) -> voicevox_result_code
+
+  def voicevox_tts: (
+    String text,
+    String speaker_id,
+    FFI::Pointer output_binary_size
+    FFI::Pointer output_wav
+  ) -> voicevox_result_code
+
+  def voicevox_wav_free: (FFI::Pointer wav) -> void
+
+  def voicevox_error_result_to_message: (voicevox_result_code result_code) -> String
+end
