@@ -8,7 +8,6 @@ class Voicevox
   # Voicevoxクラスのインスタンスを初期化します。
   #
   def initialize
-    ObjectSpace.define_finalizer(self, Voicevox.finalizer)
   end
 
   #
@@ -35,12 +34,15 @@ class Voicevox
     self.class.initialized = true
   end
 
+  #
+  # Voicevoxのコアをファイナライズします。
+  #
+  def finalize
+    Voicevox::Core.finalize or Voicevox.failed
+  end
+
   class << self
     attr_accessor :initialized
-
-    def finalizer
-      proc { Voicevox::Core.finalize }
-    end
   end
 
   private
