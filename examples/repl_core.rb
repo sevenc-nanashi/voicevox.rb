@@ -24,7 +24,7 @@ loop do
   data = data_ptr.read_string(size_ptr.read_int)
 
   size_ptr.free
-  return_ptr.free
+  Voicevox::Core.voicevox_wav_free(data_ptr)
 
   i += 1
   File.write("#{__dir__}/outputs/#{Process.pid}_#{i}.wav", data, mode: "wb")
