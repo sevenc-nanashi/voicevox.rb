@@ -8,3 +8,5 @@
 /tmp/
 
 voicevox_core-*
+examples/outputs/*.wav
+Gemfile.lock

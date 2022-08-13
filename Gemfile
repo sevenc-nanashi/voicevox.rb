@@ -12,3 +12,4 @@ gem "rubocop", "~> 1.35"
 
 gem "steep", "~> 1.1"
 
+gem "reline", "~> 0.3.1"
