@@ -32,4 +32,14 @@ class Voicevox
       )
     end
   end
+
+  private
+
+  #
+  # last_error_messageのVoicevox::Errorをraiseします。
+  #
+  def self.failed
+    raise Voicevox::Error,
+          Voicevox::Core.last_error_message.force_encoding("UTF-8")
+  end
 end
