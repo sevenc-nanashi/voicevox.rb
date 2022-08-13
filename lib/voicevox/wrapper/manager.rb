@@ -42,13 +42,33 @@ class Voicevox
     self.class.initialized = false
   end
 
-  class << self
-    attr_accessor :initialized
+  #
+  # OpenJTalkの辞書を読み込みます。
+  #
+  # @param [String] path 辞書へのパス。
+  #
+  def load_openjtalk_dict(path)
+    Voicevox::Core.voicevox_load_openjtalk_dict(path) or Voicevox.failed
   end
 
-  private
+  #
+  # voicevox_ttsを使って音声を生成します。
+  #
+  # @param [String] text 生成する音声のテキスト。
+  # @param [Voicevox::CharacterInfo, Voicevox::CharacterInfo, Integer] speaker 話者、または話者のID。
+  #
+  # @return [String] 生成された音声のwavデータ。
+  #
+  def tts(text, speaker)
+    size_ptr = FFI::MemoryPointer.new(:int)
+    return_ptr = FFI::MemoryPointer.new(:pointer)
+    id = speaker.is_a?(Integer) ? speaker : speaker.id
+    Voicevox.process_result Voicevox::Core.voicevox_tts(text, id, size_ptr, return_ptr)
+    data_ptr = return_ptr.read_pointer
+    data_ptr.read_string(size_ptr.read_int)
+  end
 
-  def self.initialize_required
-    raise Voicevox::Error, "Voicevoxが初期化されていません" unless initialized?
+  class << self
+    attr_accessor :initialized
   end
 end
