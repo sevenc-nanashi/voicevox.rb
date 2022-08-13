@@ -15,6 +15,10 @@ class Voicevox
   end
 
   CharacterInfo = Struct.new(:name, :styles, :speaker_uuid, :version, keyword_init: true) do
+    def id
+      self.styles[0].id
+    end
+
     def loaded?
       self.styles.map(&:loaded?).all?
     end
