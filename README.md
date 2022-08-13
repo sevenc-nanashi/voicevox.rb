@@ -1,0 +1,3 @@
+# voicevox.rb / Unofficial wrapper for voicevox_core
+
+工事中...
