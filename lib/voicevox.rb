@@ -2,6 +2,7 @@
 
 require_relative "voicevox/version"
 require_relative "voicevox/core"
+require_relative "voicevox/wrapper/utils"
 require_relative "voicevox/wrapper/info"
 require_relative "voicevox/wrapper/manager"
 
