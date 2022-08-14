@@ -1,0 +1,16 @@
+module FFI
+  module Library
+    def ffi_lib: (Array[String] | String) -> void
+
+    def enum: (Symbol, Array[Symbol | Integer]) -> void
+
+    def attach_function: (Symbol, Array[Symbol], Symbol) -> void
+  end
+
+  class Pointer
+  end
+
+  class MemoryPointer < Pointer
+    def initialize: (Symbol `type`) -> void
+  end
+end

@@ -1,0 +1,48 @@
+class Voicevox
+  class Error < StandardError
+  end
+
+  class CoreError < Error
+    attr_reader code: Voicevox::Core::voicevox_result_code
+
+    attr_reader self.code: Voicevox::Core::voicevox_result_code
+
+    def self.from_code: (Voicevox::Core::voicevox_result_code code) -> CoreError
+
+    class NotLoadedOpenjtalkDict < Voicevox::CoreError
+    end
+
+    class FailedLoadModel < Voicevox::CoreError
+    end
+
+    class FailedGetSupportedDevices < Voicevox::CoreError
+    end
+
+    class CantGpuSupport < Voicevox::CoreError
+    end
+
+    class FailedLoadMetas < Voicevox::CoreError
+    end
+
+    class UninitializedStatus < Voicevox::CoreError
+    end
+
+    class InvalidSpeakerId < Voicevox::CoreError
+    end
+
+    class InvalidModelIndex < Voicevox::CoreError
+    end
+
+    class InferenceFailed < Voicevox::CoreError
+    end
+
+    class FailedExtractFullContextLabel < Voicevox::CoreError
+    end
+
+    class InvalidUtf8Input < Voicevox::CoreError
+    end
+
+    class FailedParseKana < Voicevox::CoreError
+    end
+  end
+end

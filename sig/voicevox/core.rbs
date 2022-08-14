@@ -16,32 +16,32 @@ module Voicevox::Core
     | :voicevox_result_invalid_utf8_input
     | :voicevox_result_failed_parse_kana
 
-  def initialize: (
+  def self?.initialize: (
     bool use_gpu,
     Integer cpu_num_threads,
     bool load_all_models
   ) -> bool
 
-  def load_model: (Integer speaker_id) -> bool
+  def self?.load_model: (Integer speaker_id) -> bool
 
-  def is_model_loaded: (Integer speaker_id) -> bool
+  def self?.is_model_loaded: (Integer speaker_id) -> bool
 
-  def finalize: -> void
+  def self?.finalize: -> void
 
-  def metas: -> String
+  def self?.metas: -> String
 
-  def last_error_message: -> String
+  def self?.last_error_message: -> String
 
-  def supported_devices: -> String
+  def self?.supported_devices: -> String
 
-  def yukarin_s_forward: (
+  def self?.yukarin_s_forward: (
     Integer length,
     FFI::Pointer phoneme_list,
     FFI::Pointer speaker_id,
     FFI::Pointer output
   ) -> bool
 
-  def yukarin_sa_forward: (
+  def self?.yukarin_sa_forward: (
     Integer length,
     FFI::Pointer vowel_phoneme_list,
     FFI::Pointer consonant_phoneme_list,
@@ -52,7 +52,7 @@ module Voicevox::Core
     FFI::Pointer speaker_id
   ) -> bool
 
-  def decode_forward: (
+  def self?.decode_forward: (
     Integer length,
     Integer phoneme_size,
     FFI::Pointer f0,
@@ -61,16 +61,20 @@ module Voicevox::Core
     FFI::Pointer output
   ) -> bool
 
-  def voicevox_load_openjtalk_dict: (String dict_path) -> voicevox_result_code
+  def self?.voicevox_load_openjtalk_dict: (
+    String dict_path
+  ) -> voicevox_result_code
 
-  def voicevox_tts: (
+  def self?.voicevox_tts: (
     String text,
     String speaker_id,
-    FFI::Pointer output_binary_size
+    FFI::Pointer output_binary_size,
     FFI::Pointer output_wav
   ) -> voicevox_result_code
 
-  def voicevox_wav_free: (FFI::Pointer wav) -> void
+  def self?.voicevox_wav_free: (FFI::Pointer wav) -> void
 
-  def voicevox_error_result_to_message: (voicevox_result_code result_code) -> String
+  def self?.voicevox_error_result_to_message: (
+    voicevox_result_code result_code
+  ) -> String
 end

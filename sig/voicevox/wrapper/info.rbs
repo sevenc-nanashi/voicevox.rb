@@ -1,0 +1,22 @@
+class Voicevox
+  def self.supported_devices: -> Voicevox::SupportedDevices
+  def self.characters: -> Array[Voicevox::CharacterInfo]
+
+  class SupportedDevices < Struct[bool]
+    attr_accessor cpu: bool
+    attr_accessor cuda: bool
+    attr_accessor dml: bool
+  end
+
+  class CharacterInfo < Struct[untyped]
+    attr_accessor name: String
+    attr_accessor styles: Array[Voicevox::StyleInfo]
+    attr_accessor speaker_uuid: String
+    attr_accessor version: String
+  end
+
+  class StyleInfo < Struct[untyped]
+    attr_accessor name: String
+    attr_accessor id: Integer
+  end
+end
