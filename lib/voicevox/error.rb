@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "objspace"
 
 class Voicevox
@@ -23,7 +25,7 @@ class Voicevox
       attr_reader :code
 
       def from_code(code)
-        ObjectSpace.each_object(Class).find { |klass| klass < self && klass.code == code }.new()
+        ObjectSpace.each_object(Class).find { |klass| klass < self && klass.code == code }.new
       end
     end
 

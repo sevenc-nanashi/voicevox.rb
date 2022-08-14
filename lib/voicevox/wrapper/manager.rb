@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "etc"
 require "objspace"
 
@@ -27,10 +29,10 @@ class Voicevox
   # @param [Boolean] load_all_models 全てのモデルを読み込むかどうか。省略するとtrueになります。
   #
   def init(use_gpu: :auto, threads: nil, load_all_models: true)
-    @use_gpu = use_gpu == :auto ? Voicevox.supported_devices.cuda || Voicevox.supported_devices.dml : use_gpu
+    @use_gpu = use_gpu == :auto ? (Voicevox.supported_devices.cuda || Voicevox.supported_devices.dml) : use_gpu
     @threads = threads || Etc.nprocessors
     @load_all_models = load_all_models
-    Voicevox::Core.initialize(@use_gpu, @threads, @load_all_models) or Voicevox.failed unless initialized?
+    Voicevox::Core.initialize(@use_gpu, @threads, @load_all_models) || Voicevox.failed unless initialized?
     self.class.initialized = true
   end
 
@@ -38,7 +40,7 @@ class Voicevox
   # Voicevoxのコアをファイナライズします。
   #
   def finalize
-    Voicevox::Core.finalize or Voicevox.failed
+    Voicevox::Core.finalize || Voicevox.failed
     self.class.initialized = false
   end
 
@@ -48,14 +50,14 @@ class Voicevox
   # @param [String] path 辞書へのパス。
   #
   def load_openjtalk_dict(path)
-    Voicevox::Core.voicevox_load_openjtalk_dict(path) or Voicevox.failed
+    Voicevox::Core.voicevox_load_openjtalk_dict(path) || Voicevox.failed
   end
 
   #
   # voicevox_ttsを使って音声を生成します。
   #
   # @param [String] text 生成する音声のテキスト。
-  # @param [Voicevox::CharacterInfo, Voicevox::CharacterInfo, Integer] speaker 話者、または話者のID。
+  # @param [Voicevox::CharacterInfo, Voicevox::StyleInfo, Integer] speaker 話者、または話者のID。
   #
   # @return [String] 生成された音声のwavデータ。
   #
@@ -63,7 +65,7 @@ class Voicevox
     size_ptr = FFI::MemoryPointer.new(:int)
     return_ptr = FFI::MemoryPointer.new(:pointer)
     id = speaker.is_a?(Integer) ? speaker : speaker.id
-    Voicevox.process_result Voicevox::Core.voicevox_tts(text, id, size_ptr, return_ptr)
+    Voicevox.process_result(Voicevox::Core.voicevox_tts(text, id, size_ptr, return_ptr))
     data_ptr = return_ptr.read_pointer
     size_ptr.free
     data = data_ptr.read_string(size_ptr.read_int)
@@ -83,7 +85,7 @@ class Voicevox
     size_ptr = FFI::MemoryPointer.new(:int)
     return_ptr = FFI::MemoryPointer.new(:pointer)
     id = speaker.is_a?(Integer) ? speaker : speaker.id
-    Voicevox.process_result Voicevox::Core.voicevox_tts_from_kana(text, id, size_ptr, return_ptr)
+    Voicevox.process_result(Voicevox::Core.voicevox_tts_from_kana(text, id, size_ptr, return_ptr))
     data_ptr = return_ptr.read_pointer
     size_ptr.free
     data = data_ptr.read_string(size_ptr.read_int)
@@ -91,11 +93,11 @@ class Voicevox
     data
   end
 
-  alias aquestalk_tts tts_from_kana
+  alias_method :aquestalk_tts, :tts_from_kana
 
   class << self
     attr_accessor :initialized
 
-    alias initialized? initialized
+    alias_method :initialized?, :initialized
   end
 end
