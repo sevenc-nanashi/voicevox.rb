@@ -7,6 +7,8 @@ class Voicevox
 
     attr_reader self.code: Voicevox::Core::voicevox_result_code
 
+    def initialize: () -> void
+
     def self.from_code: (Voicevox::Core::voicevox_result_code code) -> CoreError
 
     class NotLoadedOpenjtalkDict < Voicevox::CoreError
