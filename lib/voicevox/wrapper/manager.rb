@@ -48,7 +48,7 @@ class Voicevox
   # Voicevoxのコアをファイナライズします。
   #
   def finalize
-    Voicevox::Core.finalize || Voicevox.failed
+    Voicevox::Core.finalize
     self.class.initialized = false
   end
 
