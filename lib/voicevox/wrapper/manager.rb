@@ -62,6 +62,32 @@ class Voicevox
   end
 
   #
+  # 話者のモデルを読み込みます。
+  #
+  # @param [Voicevox::CharacterInfo, Voicevox::StyleInfo, Integer] speaker 話者、または話者のID。
+  #
+  def load_model(speaker)
+    Voicevox.initialize_required
+    id = speaker.is_a?(Integer) ? speaker : speaker.id
+
+    Voicevox::Core.load_model(id) || Voicevox.failed
+  end
+
+  #
+  # モデルが読み込まれているかどうかを返します。
+  #
+  # @param [Voicevox::CharacterInfo, Voicevox::StyleInfo, Integer] speaker 話者、または話者のID。
+  #
+  # @return [Boolean] 読み込まれているかどうか。
+  #
+  def model_loaded?(speaker)
+    Voicevox.initialize_required
+    id = speaker.is_a?(Integer) ? speaker : speaker.id
+
+    Voicevox::Core.is_model_loaded(id)
+  end
+
+  #
   # voicevox_ttsを使って音声を生成します。
   #
   # @param [String] text 生成する音声のテキスト。

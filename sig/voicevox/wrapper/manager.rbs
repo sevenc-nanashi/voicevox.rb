@@ -21,6 +21,9 @@ class Voicevox
 
   type speaker = Voicevox::CharacterInfo | Voicevox::StyleInfo | Integer
 
+  def load_model: (speaker speaker) -> void
+  def model_loaded?: (speaker speaker) -> bool
+
   def tts: (String text, speaker speaker) -> String
   def tts_from_kana: (String text, speaker speaker) -> String
   alias aquestalk_tts tts_from_kana
