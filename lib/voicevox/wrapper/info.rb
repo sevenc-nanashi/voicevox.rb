@@ -57,5 +57,16 @@ class Voicevox
         )
       end
     end
+
+    #
+    # GPUをサポートしているかを返します。
+    #
+    # @note CUDA、またはDirectMLが使える場合にtrueを返します。
+    #
+    # @return [Boolean] GPUをサポートしているかどうか。
+    #
+    def gpu_supported?
+      Voicevox.supported_devices.cuda || Voicevox.supported_devices.dml
+    end
   end
 end

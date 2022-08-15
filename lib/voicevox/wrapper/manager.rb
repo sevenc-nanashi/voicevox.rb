@@ -37,7 +37,7 @@ class Voicevox
   # @param [Boolean] load_all_models 全てのモデルを読み込むかどうか。省略するとtrueになります。
   #
   def init(use_gpu: :auto, threads: nil, load_all_models: true)
-    @use_gpu = use_gpu == :auto ? (Voicevox.supported_devices.cuda || Voicevox.supported_devices.dml) : use_gpu
+    @use_gpu = use_gpu == :auto ? Voicevox.gpu_supported? : use_gpu
     @threads = threads || Etc.nprocessors
     @load_all_models = load_all_models
     Voicevox::Core.initialize(@use_gpu, @threads, @load_all_models) || Voicevox.failed unless initialized?

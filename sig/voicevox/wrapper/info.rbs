@@ -19,4 +19,6 @@ class Voicevox
     attr_accessor name: String
     attr_accessor id: Integer
   end
+
+  def self.gpu_supported?: -> bool
 end
