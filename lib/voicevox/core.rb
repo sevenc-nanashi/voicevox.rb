@@ -10,10 +10,10 @@ else
   RubyInstaller::Runtime.add_dll_directory(Voicevox.voicevox_path)
 end
 
-#
-# voicevox_coreの薄いラッパー。
-#
-module Voicevox
+class Voicevox
+  #
+  # voicevox_coreの薄いラッパー。
+  #
   module Core
     extend FFI::Library
     ffi_lib ["core.dll", "libcore.dylib", "libcore.so"]
