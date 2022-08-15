@@ -11,7 +11,7 @@ vv.load_openjtalk_dict(dict_path)
 character = Voicevox.characters[0].styles[0]
 character.load
 
-puts "完了"
+puts "完了：#{vv.gpu? ? "GPU" : "CPU"}モード"
 i = 0
 loop do
   text = Reline.readline "> "
@@ -25,3 +25,4 @@ loop do
   File.write("#{__dir__}/outputs/#{Process.pid}_#{i}.wav", data, mode: "wb")
   puts "、#{Process.pid}_#{i}.wav"
 end
+vv.finalize
