@@ -5,6 +5,14 @@ require "objspace"
 
 class Voicevox
   @initialized = false
+  # @return [Boolean] GPUモードで動作しているかどうか。
+  attr_reader :use_gpu
+  # @return [Integer] スレッド数。
+  attr_reader :threads
+  # @return [Boolean] 起動時に全てのモデルを読み込むかどうか。
+  attr_reader :load_all_models
+
+  alias gpu? use_gpu
 
   #
   # Voicevoxクラスのインスタンスを初期化します。

@@ -1,7 +1,9 @@
 class Voicevox
-  @use_gpu: bool
-  @threads: Integer
-  @load_all_models: bool
+  attr_reader use_gpu: bool
+  attr_reader threads: Integer
+  attr_reader load_all_models: bool
+
+  alias gpu? use_gpu
 
   def initialize: -> void
 
