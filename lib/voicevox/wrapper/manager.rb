@@ -33,12 +33,12 @@ class Voicevox
   # Voicevoxのコアを初期化します。
   #
   # @param [Boolean, :auto] use_gpu GPUを使うかどうか。:autoを指定するとDirectML、またはCUDAが使える場合にtrueになります。
-  # @param [Integer] threads スレッド数。省略するとEtc.nprocessorsの値になります。
+  # @param [Integer] threads スレッド数。省略すると自動で決定されます。
   # @param [Boolean] load_all_models 全てのモデルを読み込むかどうか。省略するとtrueになります。
   #
   def init(use_gpu: :auto, threads: nil, load_all_models: true)
     @use_gpu = use_gpu == :auto ? Voicevox.gpu_supported? : use_gpu
-    @threads = threads || Etc.nprocessors
+    @threads = threads || 0
     @load_all_models = load_all_models
     Voicevox::Core.initialize(@use_gpu, @threads, @load_all_models) || Voicevox.failed unless initialized?
     self.class.initialized = true
