@@ -38,13 +38,13 @@ class Voicevox
     #
     def voicevox_path
       paths = if Gem.win_platform?
-        [File.join(ENV["LOCALAPPDATA"], "Programs", "VOICEVOX")]
-      else
-        [
-          "/Applications/VOICEVOX",
-          "/Users/#{Etc.getlogin}/Library/Application Support/VOICEVOX",
-        ]
-      end
+          [File.join(ENV.fetch("LOCALAPPDATA", ""), "Programs", "VOICEVOX")]
+        else
+          [
+            "/Applications/VOICEVOX",
+            "/Users/#{Etc.getlogin}/Library/Application Support/VOICEVOX",
+          ]
+        end
       paths.find { |path| Dir.exist?(path) }
     end
   end
