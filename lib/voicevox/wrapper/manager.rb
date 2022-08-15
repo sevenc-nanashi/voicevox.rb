@@ -62,6 +62,8 @@ class Voicevox
   # @return [String] 生成された音声のwavデータ。
   #
   def tts(text, speaker)
+    Voicevox.initialize_required
+
     size_ptr = FFI::MemoryPointer.new(:int)
     return_ptr = FFI::MemoryPointer.new(:pointer)
     id = speaker.is_a?(Integer) ? speaker : speaker.id
@@ -82,6 +84,8 @@ class Voicevox
   # @return [String] 生成された音声のwavデータ。
   #
   def tts_from_kana(text, speaker)
+    Voicevox.initialize_required
+
     size_ptr = FFI::MemoryPointer.new(:int)
     return_ptr = FFI::MemoryPointer.new(:pointer)
     id = speaker.is_a?(Integer) ? speaker : speaker.id
