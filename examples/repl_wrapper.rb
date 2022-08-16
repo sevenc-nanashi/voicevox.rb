@@ -25,4 +25,6 @@ loop do
   File.write("#{__dir__}/outputs/#{Process.pid}_#{i}.wav", data, mode: "wb")
   puts "、#{Process.pid}_#{i}.wav"
 end
+print "\nファイナライズ中... "
 vv.finalize
+puts "完了"
