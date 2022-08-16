@@ -8,5 +8,5 @@
 /tmp/
 
 voicevox_core-*
-examples/outputs/*.wav
+*.wav
 Gemfile.lock
