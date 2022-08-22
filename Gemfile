@@ -16,3 +16,5 @@ gem "reline", "~> 0.3.1"
 
 gem "syntax_tree", "~> 3.3"
 gem "syntax_tree-rbs", "~> 0.5.0"
+
+gem "rspec", "~> 3.11"

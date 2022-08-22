@@ -1,4 +1,7 @@
 # frozen_string_literal: true
 
 require "bundler/gem_tasks"
-task default: %i[]
+require "rspec/core/rake_task"
+task default: %i[spec]
+
+RSpec::Core::RakeTask.new(:spec)
