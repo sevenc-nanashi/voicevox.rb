@@ -11,7 +11,21 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
       
-      - name: Download Voicevox
+      - name: Fetch release
+        runs: |
+          curl https://api.github.com/repos/voicevox/voicevox_core/releases/latest \
+            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            -o latest_release.json
+
+      - name: Load cache
+        id: load-cache
+        uses: actions/cache@v3
+        with:
+          path: voicevox_core-linux-x64-cpu-*
+          key: ${{ runner.os }}-${{ hashFiles('./latest_release.json') }}
+
+      - name: Download voicevox_core
+        if: steps.load-cache.outputs.cache-hit != 'true'
         run: |
           curl https://api.github.com/repos/voicevox/voicevox_core/releases/latest | \
             jq -r '.assets[] | select(.name | contains("voicevox_core-linux-x64-cpu-")) | .browser_download_url' | \
@@ -19,10 +33,12 @@ jobs:
           unzip voicevox_core.zip
           cp ./voicevox_core-linux-x64-cpu-*/* .
     
-      - name: Install dependencies
-        run: |
-          bundle install
-      
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.0"
+          bundler-cache: true
+
       - name: Run Rspec
         run: |
           rake spec
