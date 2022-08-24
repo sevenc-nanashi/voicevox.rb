@@ -10,7 +10,7 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-      
+
       - name: Fetch release
         run: |
           curl https://api.github.com/repos/voicevox/voicevox_core/releases/latest \
@@ -32,7 +32,7 @@ jobs:
             xargs wget -O voicevox_core.zip
           unzip voicevox_core.zip
           cp ./voicevox_core-linux-x64-cpu-*/* .
-    
+
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
@@ -42,5 +42,5 @@ jobs:
       - name: Run Rspec
         run: |
           bundle exec rake spec
-
-      
+        env:
+          LD_LIBRARY_PATH: .
