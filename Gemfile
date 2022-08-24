@@ -7,8 +7,8 @@ gemspec
 
 gem "rake", "~> 13.0"
 
-gem "rubocop-shopify", "~> 2.9"
 gem "rubocop", "~> 1.35"
+gem "rubocop-shopify", "~> 2.9"
 
 gem "steep", "~> 1.1"
 

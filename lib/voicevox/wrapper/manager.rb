@@ -37,7 +37,7 @@ class Voicevox
   # @param [Boolean] load_all_models 全てのモデルを読み込むかどうか。省略するとtrueになります。
   #
   def init(use_gpu: :auto, threads: nil, load_all_models: true)
-    @use_gpu = use_gpu == :auto ? Voicevox.gpu_supported? : !!use_gpu
+    @use_gpu = use_gpu == :auto ? Voicevox.gpu_supported? : !use_gpu.nil?
     @threads = threads || 0
     @load_all_models = load_all_models
     Voicevox::Core.initialize(@use_gpu, @threads, @load_all_models) || Voicevox.failed unless initialized?
@@ -131,11 +131,11 @@ class Voicevox
     data
   end
 
-  alias_method :aquestalk_tts, :tts_from_kana
+  alias aquestalk_tts tts_from_kana
 
   class << self
     attr_accessor :initialized
 
-    alias_method :initialized?, :initialized
+    alias initialized? initialized
   end
 end

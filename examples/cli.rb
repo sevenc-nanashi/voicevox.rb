@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # ref: https://github.com/VOICEVOX/voicevox_core/blob/main/example/python/run.py
 
 require "voicevox"
@@ -24,7 +26,7 @@ def main(use_gpu:, text:, speaker_id:, cpu_num_threads:, openjtalk_dict:)
   vv.finalize
 end
 
-if __FILE__ == $0
+if __FILE__ == $PROGRAM_NAME
   options = {
     use_gpu: false,
     text: nil,
@@ -45,7 +47,7 @@ if __FILE__ == $0
   parser.parse!
   if options.values.any? { _1.nil? }
     raise OptParse::MissingArgument,
-          options.filter { |k, v| v.nil? }.keys.join(", ")
+      options.filter { |_k, v| v.nil? }.keys.join(", ")
   end
   main(**options)
 end

@@ -1,19 +1,25 @@
+# frozen_string_literal: true
+
 require "voicevox"
 require "reline"
 
-dict_path = ENV.fetch("OPENJTALK_DICT") {
-  Voicevox.voicevox_path ? Voicevox.voicevox_path + "/pyopenjtalk/open_jtalk_dic_utf_8-1.11" : raise("OPENJTALK_DICTを設定してください。")
-}
+dict_path =
+  ENV.fetch("OPENJTALK_DICT") do
+    raise("OPENJTALK_DICTを設定してください。") unless Voicevox.voicevox_path
+
+    "#{Voicevox.voicevox_path}/pyopenjtalk/open_jtalk_dic_utf_8-1.11"
+  end
 print "== 初期化中... "
 Voicevox::Core.initialize(false, 4, false)
-Voicevox::Core.load_model 0
+Voicevox::Core.load_model(0)
 
 Voicevox::Core.voicevox_load_openjtalk_dict(dict_path)
 puts "完了"
 i = 0
 loop do
-  text = Reline.readline "> "
+  text = Reline.readline("> ")
   break unless text
+
   print "生成中... "
 
   size_ptr = FFI::MemoryPointer.new(:int)

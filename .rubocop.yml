@@ -1,2 +1,9 @@
 inherit_gem:
-  rubocop-shopify: rubocop.yml
+  syntax_tree: config/rubocop.yml
+
+AllCops:
+  NewCops: enable
+
+Style/Documentation:
+  Enabled: false
+
