@@ -7,7 +7,7 @@ Voicevox.rbは[VOICEVOX/voicevox_core](https://github.com/VOICEVOX/voicevox_core
 環境に合ったvoicevox_coreのライブラリをダウンロードし、Rubyから参照できるようにしてください。  
 
 Windows環境の場合は、[RubyInstaller2のwiki](https://github.com/oneclick/rubyinstaller2/wiki/For-gem-developers#-dll-loading)を参照してください。  
-Windows環境でインストーラー版製品版Voicevoxがインストールされている場合、Voicevoxのインストール先に自動的にdllのパスが通されます。この挙動は`VOICEVOXRB_NO_AUTO_DLL_LOAD`を環境変数に設定することで無効化できます。
+Windows環境でインストーラー版製品版Voicevoxがインストールされている場合、Voicevoxのインストール先に自動的にdllのパスが通されます。この挙動は`VOICEVOXRB_NO_AUTO_DLL_LOAD`環境変数に何か文字列を設定することで無効化できます。
 
 ### 高レベルAPI
 
