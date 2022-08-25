@@ -3,6 +3,7 @@ inherit_gem:
 
 AllCops:
   NewCops: enable
+  TargetRubyVersion: 3.0
 
 Style/Documentation:
   Enabled: false
