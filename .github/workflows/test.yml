@@ -21,17 +21,27 @@ jobs:
         id: load-cache
         uses: actions/cache@v3
         with:
-          path: voicevox_core-linux-x64-cpu-*
-          key: ${{ runner.os }}-${{ hashFiles('./latest_release.json') }}
+          path: vv_lib
+          # NOTE: 最後のv1はインクリメントしてキャッシュを消す用
+          key: ${{ runner.os }}-${{ hashFiles('./latest_release.json') }}-v1
 
       - name: Download voicevox_core
         if: steps.load-cache.outputs.cache-hit != 'true'
         run: |
-          curl https://api.github.com/repos/voicevox/voicevox_core/releases/latest | \
+          cat latest_release.json | \
             jq -r '.assets[] | select(.name | contains("voicevox_core-linux-x64-cpu-")) | .browser_download_url' | \
             xargs wget -O voicevox_core.zip
           unzip voicevox_core.zip
-          cp ./voicevox_core-linux-x64-cpu-*/* .
+          mkdir vv_lib
+          cp ./voicevox_core-linux-x64-cpu-*/*.so vv_lib
+
+      # FIXME: voicevox_coreの同封ライブラリとかが直されたら消す
+      - name: Download external libraries
+        if: steps.load-cache.outputs.cache-hit != 'true'
+        run: |
+          wget https://github.com/microsoft/onnxruntime/releases/download/v1.10.0/onnxruntime-linux-x64-1.10.0.tgz
+          tar -xvf onnxruntime-linux-x64-1.10.0.tgz
+          cp onnxruntime-linux-x64-1.10.0/lib/*.so* vv_lib
 
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
@@ -43,4 +53,4 @@ jobs:
         run: |
           bundle exec rake spec
         env:
-          LD_LIBRARY_PATH: .
+          LD_LIBRARY_PATH: vv_lib
