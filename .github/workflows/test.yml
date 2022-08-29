@@ -30,7 +30,7 @@ jobs:
         run: |
           cat latest_release.json | \
             jq -r '.assets[] | select(.name | contains("voicevox_core-linux-x64-cpu-")) | .browser_download_url' | \
-            xargs wget -O voicevox_core.zip
+            xargs wget -qO voicevox_core.zip
           unzip voicevox_core.zip
           mkdir vv_lib
           cp ./voicevox_core-linux-x64-cpu-*/*.so vv_lib
@@ -39,7 +39,7 @@ jobs:
       - name: Download external libraries
         if: steps.load-cache.outputs.cache-hit != 'true'
         run: |
-          wget https://github.com/microsoft/onnxruntime/releases/download/v1.10.0/onnxruntime-linux-x64-1.10.0.tgz
+          wget -q https://github.com/microsoft/onnxruntime/releases/download/v1.10.0/onnxruntime-linux-x64-1.10.0.tgz
           tar -xvf onnxruntime-linux-x64-1.10.0.tgz
           cp onnxruntime-linux-x64-1.10.0/lib/*.so* vv_lib
 
