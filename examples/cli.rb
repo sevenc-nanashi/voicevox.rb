@@ -32,7 +32,7 @@ if __FILE__ == $PROGRAM_NAME
     text: nil,
     speaker_id: nil,
     cpu_num_threads: 0,
-    openjtalk_dict: "open_jtalk_dic_utf_8-1.11",
+    openjtalk_dict: "open_jtalk_dic_utf_8-1.11"
   }
   parser = OptionParser.new
   parser.on("--[no-]use_gpu") { |v| options[:use_gpu] = v }
@@ -45,9 +45,9 @@ if __FILE__ == $PROGRAM_NAME
     options[:openjtalk_dict] = v if v
   end
   parser.parse!
-  if options.values.any? { _1.nil? }
+  if options.values.any?(&:nil?)
     raise OptParse::MissingArgument,
-      options.filter { |_k, v| v.nil? }.keys.join(", ")
+          options.filter { |_k, v| v.nil? }.keys.join(", ")
   end
   main(**options)
 end
