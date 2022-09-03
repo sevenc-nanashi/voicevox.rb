@@ -3,27 +3,55 @@
 require "json"
 
 class Voicevox
+  # サポートされているデバイスを表すStruct。
   SupportedDevices = Struct.new(:cpu, :cuda, :dml, keyword_init: true)
 
+  # キャラクターの情報を表すStruct。
   CharacterInfo = Struct.new(:name, :styles, :speaker_uuid, :version, keyword_init: true) do
+    #
+    # キャラクターの最初のスタイルのIDを返します。
+    # @note ほとんどの場合はノーマルになります。
+    #
+    # @return [Integer] スタイルのID。
+    #
     def id
       styles[0].id
     end
 
+    #
+    # キャラクターのスタイルが全てロードされているかを返します。
+    #
+    # @return [Boolean] 全てロードされている場合はtrue、そうでない場合はfalse。
+    #
     def loaded?
       styles.map(&:loaded?).all?
     end
 
+    #
+    # キャラクターのスタイルを全てロードします。
+    #
+    # @return [void]
+    #
     def load
       Voicevox.initialize_required
       styles.map(&:load)
     end
   end
   StyleInfo = Struct.new(:name, :id, keyword_init: true) do
+    #
+    # スタイルがロードされているかを返します。
+    #
+    # @return [Boolean] ロードされている場合はtrue、そうでない場合はfalse。
+    #
     def loaded?
       Voicevox::Core.is_model_loaded(id)
     end
 
+    #
+    # スタイルをロードします。
+    #
+    # @return [void]
+    #
     def load
       Voicevox.initialize_required
       Voicevox::Core.load_model(id) || Voicevox.failed
