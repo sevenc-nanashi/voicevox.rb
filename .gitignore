@@ -10,3 +10,4 @@
 voicevox_core-*
 *.wav
 Gemfile.lock
+.gem_rbs_collection
