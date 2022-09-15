@@ -10,3 +10,6 @@ Style/Documentation:
 
 Lint/ScriptPermission:
   Enabled: false
+
+Metrics:
+  Enabled: false

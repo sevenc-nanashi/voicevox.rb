@@ -7,7 +7,7 @@ class Voicevox
 
     attr_reader self.code: Voicevox::Core::voicevox_result_code
 
-    def initialize: () -> void
+    def initialize: -> void
 
     def self.from_code: (Voicevox::Core::voicevox_result_code code) -> CoreError
 
@@ -45,6 +45,9 @@ class Voicevox
     end
 
     class FailedParseKana < Voicevox::CoreError
+    end
+
+    class InvalidAudioQuery < Voicevox::CoreError
     end
   end
 end

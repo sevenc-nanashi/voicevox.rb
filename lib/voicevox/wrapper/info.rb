@@ -66,7 +66,7 @@ class Voicevox
     #
     def supported_devices
       SupportedDevices.new(
-        **JSON.parse(Voicevox::Core.supported_devices),
+        **JSON.parse(Voicevox::Core.voicevox_get_supported_devices_json),
       )
     end
 
@@ -76,7 +76,7 @@ class Voicevox
     # @return [Array<CharacterInfo>] キャラクターの一覧。
     #
     def characters
-      JSON.parse(Voicevox::Core.metas).map do |meta|
+      JSON.parse(Voicevox::Core.voicevox_get_metas_json).map do |meta|
         CharacterInfo.new(
           **{
             **meta,

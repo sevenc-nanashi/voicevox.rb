@@ -15,33 +15,61 @@ module Voicevox::Core
     | :voicevox_result_failed_extract_full_context_label
     | :voicevox_result_invalid_utf8_input
     | :voicevox_result_failed_parse_kana
+    | :voicevox_result_invalid_audio_query
 
-  def self?.initialize: (
-    bool use_gpu,
-    Integer cpu_num_threads,
-    bool load_all_models
-  ) -> bool
+  type voicevox_acceleration_mode =
+    :voicevox_acceleration_mode_auto
+    | :voicevox_acceleration_mode_cpu
+    | :voicevox_acceleration_mode_gpu
 
-  def self?.load_model: (Integer speaker_id) -> bool
+  class VoicevoxInitializeOptions < FFI::Struct
+    attr_accessor acceleration_mode: voicevox_acceleration_mode
+    attr_accessor cpu_num_threads: Integer
+    attr_accessor load_all_models: bool
+    attr_accessor openjtalk_dict_path: String
+  end
 
-  def self?.is_model_loaded: (Integer speaker_id) -> bool
+  class VoicevoxAudioQueryOptions < FFI::Struct
+    attr_accessor kana: bool
+  end
 
-  def self?.finalize: -> void
+  class VoicevoxSynthesisOptions < FFI::Struct
+    attr_accessor enable_interrogative_upspeak: bool
+  end
 
-  def self?.metas: -> String
+  class VoicevoxTtsOptions < FFI::Struct
+    attr_accessor kana: bool
+    attr_accessor enable_interrogative_upspeak: bool
+  end
 
-  def self?.last_error_message: -> String
+  def self?.voicevox_make_default_initialize_options: -> Voicevox::VoicevoxInitializeOptions
 
-  def self?.supported_devices: -> String
+  def self?.voicevox_initialize: (
+    VoicevoxInitializeOptions options
+  ) -> voicevox_result_code
 
-  def self?.yukarin_s_forward: (
+  def self?.voicevox_load_model: (Integer speaker_id) -> bool
+
+  def self?.voicevox_is_gpu_mode: -> bool
+
+  def self?.voicevox_is_model_loaded: (Integer speaker_id) -> bool
+
+  def self?.voicevox_finalize: -> void
+
+  def self?.voicevox_get_metas_json: -> String
+
+  def self?.voicevox_get_supported_devices_json: -> String
+
+  def self?.voicevox_last_error_message: -> String
+
+  def self?.voicevox_predict_duration: (
     Integer length,
     FFI::Pointer phoneme_list,
     FFI::Pointer speaker_id,
     FFI::Pointer output
   ) -> bool
 
-  def self?.yukarin_sa_forward: (
+  def self?.voicevox_predict_intonation: (
     Integer length,
     FFI::Pointer vowel_phoneme_list,
     FFI::Pointer consonant_phoneme_list,
@@ -49,29 +77,47 @@ module Voicevox::Core
     FFI::Pointer end_accent_list,
     FFI::Pointer start_accent_phrase_list,
     FFI::Pointer end_accent_phrase_list,
-    FFI::Pointer speaker_id
+    Integer speaker_id,
+    FFI::Pointer output
   ) -> bool
 
-  def self?.decode_forward: (
+  def self?.voicevox_decode: (
     Integer length,
     Integer phoneme_size,
     FFI::Pointer f0,
     FFI::Pointer phoneme,
-    FFI::Pointer speaker_id,
+    Integer speaker_id,
     FFI::Pointer output
   ) -> bool
 
-  def self?.voicevox_load_openjtalk_dict: (
-    String dict_path
+  def self?.voicevox_make_default_audio_query_options: -> Voicevox::VoicevoxAudioQueryOptions
+
+  def self?.voicevox_audio_query: (
+    String text,
+    Integer speaker_id,
+    VoicevoxAudioQueryOptions options,
+    FFI::Pointer output
   ) -> voicevox_result_code
+
+  def self?.voicevox_synthesis: (
+    String audio_query_json,
+    Integer speaker_id,
+    VoicevoxSynthesisOptions options,
+    FFI::Pointer output_wav_size,
+    FFI::Pointer output_wav
+  ) -> voicevox_result_code
+
+  def self?.voicevox_make_default_tts_options: -> Voicevox::VoicevoxTtsOptions
 
   def self?.voicevox_tts: (
     String text,
     String speaker_id,
+    VoicevoxTtsOptions options,
     FFI::Pointer output_binary_size,
     FFI::Pointer output_wav
   ) -> voicevox_result_code
 
+  def self?.voicevox_audio_query_json_free: (FFI::Pointer wav) -> void
   def self?.voicevox_wav_free: (FFI::Pointer wav) -> void
 
   def self?.voicevox_error_result_to_message: (

@@ -1,13 +1,19 @@
 # frozen_string_literal: true
 
-Rspec.shared_context "voicevox_wrapper" do
+RSpec.shared_context "voicevox_wrapper" do
   # @type lvar vv: Voicevox
   let(:vv) do
-    Voicevox.new
+    vv =
+      Voicevox.new(
+        ENV.fetch("VOICEVOX_OPEN_JTALK_DICT") do
+          raise "Set environment variable VOICEVOX_OPEN_JTALK_DICT"
+        end,
+        acceleration_mode: :cpu,
+        load_all_models: false
+      )
+    vv.load_model 1
+    vv
   end
 
-  before do
-    vv.init(load_all_models: false)
-    vv.load_model 1
-  end
+  after { vv.finalize }
 end

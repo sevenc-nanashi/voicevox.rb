@@ -12,20 +12,13 @@ class Voicevox
     end
 
     #
-    # last_error_messageのVoicevox::Errorをraiseします。
-    #
-    def failed
-      raise Voicevox::Error,
-        Voicevox::Core.last_error_message.force_encoding("UTF-8")
-    end
-
-    #
     # voicevox_result_codeに対応するエラーをraiseします。
     #
     # @param [Symbol] result voicevox_result_code。
     #
     def process_result(result)
       return if result == :voicevox_result_succeed
+      raise "#{result}はSymbolではありません" unless result.is_a?(Symbol)
 
       raise Voicevox::CoreError.from_code(result)
     end
