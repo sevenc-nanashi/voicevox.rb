@@ -9,7 +9,7 @@ class Voicevox
   #
   module Core
     extend FFI::Library
-    ffi_lib %w[core.dll libcore.dylib libcore.so]
+    ffi_lib %w[voicevox_core.dll libvoicevox_core.dylib libvoicevox_core.so]
 
     enum :voicevox_result_code,
          {
