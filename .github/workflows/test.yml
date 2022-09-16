@@ -29,7 +29,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: voicevox_core
-          path: target/release/libvoicevox_core.so
+          path: target/release/*.so
 
   test:
     runs-on: ubuntu-latest
