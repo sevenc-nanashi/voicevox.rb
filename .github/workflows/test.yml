@@ -77,7 +77,8 @@ jobs:
           wget -q https://github.com/microsoft/onnxruntime/releases/download/v1.11.1/onnxruntime-linux-x64-1.11.1.tgz
           tar -xvf onnxruntime-linux-x64-1.11.1.tgz
           cp onnxruntime-linux-x64-1.11.1/lib/*.so* vv_lib
-          wget -q https://jaist.dl.sourceforge.net/project/open-jtalk/Dictionary/open_jtalk_dic-1.11/open_jtalk_dic_utf_8-1.11.tar.gz > vv_lib/dict.tar.gz
+          wget -q https://jaist.dl.sourceforge.net/project/open-jtalk/Dictionary/open_jtalk_dic-1.11/open_jtalk_dic_utf_8-1.11.tar.gz
+          tar -xvf open_jtalk_dic_utf_8-1.11.tar.gz
 
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
@@ -90,4 +91,4 @@ jobs:
           bundle exec rake spec
         env:
           LD_LIBRARY_PATH: vv_lib
-          VOICEVOX_OPEN_JTALK_DICT: vv_lib/dict.tar.gz
+          VOICEVOX_OPEN_JTALK_DICT: open_jtalk_dic_utf_8-1.11
