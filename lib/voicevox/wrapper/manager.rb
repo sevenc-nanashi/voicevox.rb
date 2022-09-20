@@ -42,7 +42,7 @@ class Voicevox
     openjtalk_dict_path,
     acceleration_mode: :auto,
     cpu_num_threads: nil,
-    load_all_models: true
+    load_all_models: false
   )
     acceleration_mode_enum =
       {
