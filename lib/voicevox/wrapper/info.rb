@@ -7,56 +7,58 @@ class Voicevox
   SupportedDevices = Struct.new(:cpu, :cuda, :dml, keyword_init: true)
 
   # キャラクターの情報を表すStruct。
-  CharacterInfo = Struct.new(:name, :styles, :speaker_uuid, :version, keyword_init: true) do
-    #
-    # キャラクターの最初のスタイルのIDを返します。
-    # @note ほとんどの場合はノーマルになります。
-    #
-    # @return [Integer] スタイルのID。
-    #
-    def id
-      styles[0].id
-    end
+  CharacterInfo =
+    Struct.new(:name, :styles, :speaker_uuid, :version, keyword_init: true) do
+      #
+      # キャラクターの最初のスタイルのIDを返します。
+      # @note ほとんどの場合はノーマルになります。
+      #
+      # @return [Integer] スタイルのID。
+      #
+      def id
+        styles[0].id
+      end
 
-    #
-    # キャラクターのスタイルが全てロードされているかを返します。
-    #
-    # @return [Boolean] 全てロードされている場合はtrue、そうでない場合はfalse。
-    #
-    def loaded?
-      styles.map(&:loaded?).all?
-    end
+      #
+      # キャラクターのスタイルが全てロードされているかを返します。
+      #
+      # @return [Boolean] 全てロードされている場合はtrue、そうでない場合はfalse。
+      #
+      def loaded?
+        styles.map(&:loaded?).all?
+      end
 
-    #
-    # キャラクターのスタイルを全てロードします。
-    #
-    # @return [void]
-    #
-    def load
-      Voicevox.initialize_required
-      styles.map(&:load)
+      #
+      # キャラクターのスタイルを全てロードします。
+      #
+      # @return [void]
+      #
+      def load
+        Voicevox.initialize_required
+        styles.map(&:load)
+      end
     end
-  end
-  StyleInfo = Struct.new(:name, :id, keyword_init: true) do
-    #
-    # スタイルがロードされているかを返します。
-    #
-    # @return [Boolean] ロードされている場合はtrue、そうでない場合はfalse。
-    #
-    def loaded?
-      Voicevox::Core.is_model_loaded(id)
-    end
+  StyleInfo =
+    Struct.new(:name, :id, keyword_init: true) do
+      #
+      # スタイルがロードされているかを返します。
+      #
+      # @return [Boolean] ロードされている場合はtrue、そうでない場合はfalse。
+      #
+      def loaded?
+        Voicevox::Core.is_model_loaded(id)
+      end
 
-    #
-    # スタイルをロードします。
-    #
-    # @return [void]
-    #
-    def load
-      Voicevox.initialize_required
-      Voicevox::Core.load_model(id) || Voicevox.failed
+      #
+      # スタイルをロードします。
+      #
+      # @return [void]
+      #
+      def load
+        Voicevox.initialize_required
+        Voicevox::Core.load_model(id) || Voicevox.failed
+      end
     end
-  end
 
   class << self
     #
@@ -66,7 +68,7 @@ class Voicevox
     #
     def supported_devices
       SupportedDevices.new(
-        **JSON.parse(Voicevox::Core.voicevox_get_supported_devices_json),
+        **JSON.parse(Voicevox::Core.voicevox_get_supported_devices_json)
       )
     end
 
@@ -76,14 +78,16 @@ class Voicevox
     # @return [Array<CharacterInfo>] キャラクターの一覧。
     #
     def characters
-      JSON.parse(Voicevox::Core.voicevox_get_metas_json).map do |meta|
-        CharacterInfo.new(
-          **{
-            **meta,
-            "styles" => meta["styles"].map { |style| StyleInfo.new(**style) },
-          },
-        )
-      end
+      JSON
+        .parse(Voicevox::Core.voicevox_get_metas_json)
+        .map do |meta|
+          CharacterInfo.new(
+            **{
+              **meta,
+              "styles" => meta["styles"].map { |style| StyleInfo.new(**style) }
+            }
+          )
+        end
     end
 
     #

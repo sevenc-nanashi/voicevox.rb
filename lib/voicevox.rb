@@ -10,5 +10,5 @@ require_relative "voicevox/wrapper/manager"
 #
 # voicevox_coreのラッパー。
 #
-class Voicevox  # rubocop:disable Lint/EmptyClass
+class Voicevox # rubocop:disable Lint/EmptyClass
 end

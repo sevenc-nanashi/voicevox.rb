@@ -30,14 +30,15 @@ class Voicevox
     # @return [nil] Voicevoxが見付からなかった場合。zip版やLinux版ではnilを返します。
     #
     def voicevox_path
-      paths = if Gem.win_platform?
-        [File.join(ENV.fetch("LOCALAPPDATA", ""), "Programs", "VOICEVOX")]
-      else
-        [
-          "/Applications/VOICEVOX",
-          "/Users/#{Etc.getlogin}/Library/Application Support/VOICEVOX",
-        ]
-      end
+      paths =
+        if Gem.win_platform?
+          [File.join(ENV.fetch("LOCALAPPDATA", ""), "Programs", "VOICEVOX")]
+        else
+          [
+            "/Applications/VOICEVOX",
+            "/Users/#{Etc.getlogin}/Library/Application Support/VOICEVOX"
+          ]
+        end
       paths.find { |path| Dir.exist?(path) }
     end
   end

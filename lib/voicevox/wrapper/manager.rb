@@ -30,7 +30,6 @@ class Voicevox
     @acceleration_mode == :cpu
   end
 
-
   #
   # Voicevoxのコアを初期化します。
   #
@@ -60,7 +59,9 @@ class Voicevox
     options[:acceleration_mode] = acceleration_mode_enum
     options[:cpu_num_threads] = @cpu_num_threads
     options[:load_all_models] = @load_all_models
-    options[:openjtalk_dict_path] = FFI::MemoryPointer.from_string(openjtalk_dict_path)
+    options[:openjtalk_dict_path] = FFI::MemoryPointer.from_string(
+      openjtalk_dict_path
+    )
 
     Voicevox.process_result Voicevox::Core.voicevox_initialize(options)
     @acceleration_mode = Voicevox::Core.voicevox_is_gpu_mode ? :gpu : :cpu
