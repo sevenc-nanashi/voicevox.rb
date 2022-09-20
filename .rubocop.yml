@@ -13,3 +13,9 @@ Lint/ScriptPermission:
 
 Metrics:
   Enabled: false
+
+Style/GuardClause:
+  Enabled: false
+
+Naming/MethodParameterName:
+  Enabled: false

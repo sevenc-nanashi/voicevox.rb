@@ -265,7 +265,9 @@ class Voicevox
            options[:cpu_num_threads],
            options[:load_all_models]
          )
-        Old.voicevox_load_openjtalk_dict(options[:openjtalk_dict_path].read_string)
+        Old.voicevox_load_openjtalk_dict(
+          options[:openjtalk_dict_path].read_string
+        )
       else
         raise(Old.last_error_message)
       end
@@ -370,7 +372,7 @@ class Voicevox
     # @param [Integer] speaker_id
     # @param [FFI::Pointer<Integer>] output
     # @return [Symbol]
-    def voicevox_predict_intonation(
+    def voicevox_decode(
       length,
       phoneme_size,
       f0,
@@ -402,7 +404,12 @@ class Voicevox
     # @return [Symbol]
     def voicevox_tts(text, speaker_id, options, output_binary_size, output_wav)
       if options[:kana]
-        Old.voicevox_tts_from_kana(text, speaker_id, output_binary_size, output_wav)
+        Old.voicevox_tts_from_kana(
+          text,
+          speaker_id,
+          output_binary_size,
+          output_wav
+        )
       else
         Old.voicevox_tts(text, speaker_id, output_binary_size, output_wav)
       end
