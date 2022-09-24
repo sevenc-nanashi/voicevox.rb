@@ -114,6 +114,7 @@ class Voicevox
     size_ptr = FFI::MemoryPointer.new(:int)
     return_ptr = FFI::MemoryPointer.new(:pointer)
     id = speaker.is_a?(Integer) ? speaker : speaker.id
+    load_model id
     options = Voicevox::Core.voicevox_make_default_tts_options
     options[:kana] = kana
     options[:enable_interrogative_upspeak] = enable_interrogative_upspeak

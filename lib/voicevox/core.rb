@@ -114,6 +114,10 @@ class Voicevox
                     ],
                     :voicevox_result_code
 
+    # attach_function :voicevox_make_default_synthesis_options,
+    #                 [],
+    #                 VoicevoxSynthesisOptions.by_value
+
     attach_function :voicevox_synthesis,
                     [
                       :string,
@@ -372,14 +376,7 @@ class Voicevox
     # @param [Integer] speaker_id
     # @param [FFI::Pointer<Integer>] output
     # @return [Symbol]
-    def voicevox_decode(
-      length,
-      phoneme_size,
-      f0,
-      phoneme,
-      speaker_id,
-      output
-    )
+    def voicevox_decode(length, phoneme_size, f0, phoneme, speaker_id, output)
       speaker_id_ptr = FFI::MemoryPointer.new(:int64)
       speaker_id_ptr.put(:int32, 0, speaker_id)
       if Old.decode_forward(
