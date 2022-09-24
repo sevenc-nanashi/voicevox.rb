@@ -55,7 +55,7 @@ class Voicevox
     @cpu_num_threads = cpu_num_threads || 0
     @load_all_models = load_all_models
     @openjtalk_dict_path = openjtalk_dict_path
-    options = Voicevox::Core::VoicevoxInitializeOptions.new
+    options = Voicevox::Core.voicevox_make_default_initialize_options
     options[:acceleration_mode] = acceleration_mode_enum
     options[:cpu_num_threads] = @cpu_num_threads
     options[:load_all_models] = @load_all_models
@@ -114,7 +114,7 @@ class Voicevox
     size_ptr = FFI::MemoryPointer.new(:int)
     return_ptr = FFI::MemoryPointer.new(:pointer)
     id = speaker.is_a?(Integer) ? speaker : speaker.id
-    options = Voicevox::Core::VoicevoxTtsOptions.new
+    options = Voicevox::Core.voicevox_make_default_tts_options
     options[:kana] = kana
     options[:enable_interrogative_upspeak] = enable_interrogative_upspeak
     Voicevox.process_result(
