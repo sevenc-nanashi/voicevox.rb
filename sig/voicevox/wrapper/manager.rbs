@@ -5,11 +5,8 @@ class Voicevox
 
   alias gpu? use_gpu
 
-  def initialize: -> void
-
-  def initialized?: -> bool
-
-  def init: (
+  def initialize: (
+    String openjtalk_dict_path,
     ?use_gpu: :auto | bool,
     ?threads: Integer?,
     ?load_all_models: bool
