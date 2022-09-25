@@ -56,7 +56,7 @@ class Voicevox
       #
       def load
         Voicevox.initialize_required
-        Voicevox::Core.load_model(id) || Voicevox.failed
+        Voicevox.process_result Voicevox::Core.voicevox_load_model(id)
       end
     end
 
