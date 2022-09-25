@@ -9,9 +9,7 @@ dict_path =
     "#{Voicevox.voicevox_path}/pyopenjtalk/open_jtalk_dic_utf_8-1.11"
   end
 print "== 初期化中... "
-vv = Voicevox.new
-vv.init(load_all_models: false)
-vv.load_openjtalk_dict(dict_path)
+vv = Voicevox.new(dict_path, load_all_models: false)
 character = Voicevox.characters[0].styles[0]
 character.load
 
