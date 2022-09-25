@@ -423,11 +423,6 @@ class Voicevox
       Old.voicevox_error_result_to_message(type)
     end
 
-    # @param [FFI::Pointer<String>] text
-    def voicevox_audio_query_json_free(json)
-      nil
-    end
-
     def voicevox_make_default_tts_options
       options = Voicevox::Core::VoicevoxTtsOptions.new
       options[:kana] = false
