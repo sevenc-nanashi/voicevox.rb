@@ -10,10 +10,11 @@ dict_path =
     "#{Voicevox.voicevox_path}/pyopenjtalk/open_jtalk_dic_utf_8-1.11"
   end
 print "== 初期化中... "
-Voicevox::Core.initialize(false, 4, false)
-Voicevox::Core.load_model(0)
+options = Voicevox::Core.voicevox_make_default_initialize_options
+options[:openjtalk_dict_path] = FFI::MemoryPointer.from_string(dict_path)
+Voicevox::Core.voicevox_initialize(options)
+Voicevox::Core.voicevox_load_model(0)
 
-Voicevox::Core.voicevox_load_openjtalk_dict(dict_path)
 puts "完了"
 i = 0
 loop do
@@ -24,7 +25,13 @@ loop do
 
   size_ptr = FFI::MemoryPointer.new(:int)
   return_ptr = FFI::MemoryPointer.new(:pointer)
-  Voicevox::Core.voicevox_tts(text, 0, size_ptr, return_ptr)
+  Voicevox::Core.voicevox_tts(
+    text,
+    0,
+    Voicevox::Core.voicevox_make_default_tts_options,
+    size_ptr,
+    return_ptr
+  )
   print "完了：#{size_ptr.read_int}バイト、アドレス：#{return_ptr.read_pointer.address.to_s(16)}"
   data_ptr = return_ptr.read_pointer
   data = data_ptr.read_string(size_ptr.read_int)
@@ -37,5 +44,5 @@ loop do
   puts "、#{Process.pid}_#{i}.wav"
 end
 print "\nファイナライズ中... "
-Voicevox::Core.finalize
+Voicevox::Core.voicevox_finalize
 puts "完了"
