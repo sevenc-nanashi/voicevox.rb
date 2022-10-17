@@ -1,6 +1,6 @@
 # voicevox.rb / voicevox_coreの非公式ラッパー
 
-Voicevox.rbは[VOICEVOX/voicevox_core](https://github.com/VOICEVOX/voicevox_core)の非公式ラッパーです。
+oicevox.rbは[VOICEVOX/voicevox_core](https://github.com/VOICEVOX/voicevox_core)の非公式ラッパーです。
 
 ## 使い方
 
