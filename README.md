@@ -2,6 +2,18 @@
 
 voicevox.rbは[VOICEVOX/voicevox_core](https://github.com/VOICEVOX/voicevox_core)の非公式ラッパーです。
 
+```rb
+dict_path = ENV["OPENJTALK_DICT_PATH"]
+vv = Voicevox.new(dict_path, load_all_models: false)
+character = Voicevox.characters[0].styles[0]
+character.load
+print "> "
+text = gets.chomp
+data = vv.tts(text, character)
+
+File.write("#{__dir__}/outputs/#{Process.pid}_#{i}.wav", data, mode: "wb")
+```
+
 ## 使い方
 
 環境に合ったvoicevox_coreのライブラリをダウンロードし、Rubyから参照できるようにしてください。  
