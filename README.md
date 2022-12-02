@@ -33,6 +33,10 @@ Voicevox::Coreに[ffi/ffi](https://github.com/ffi/ffi)で包んだだけのAPI�
 
 サンプル：[examples/repl_core.rb](./examples/repl_core.rb)
 
+## インストール
+
+このGemはRubygemsに登録されていません。[specific_install](https://rubygems.org/gems/specific_install)などを使ってインストールしてください。。
+
 ## ライセンス
 
 LGPLv3でライセンスされています。[LICENSE](./LICENSE)を参照してください。
