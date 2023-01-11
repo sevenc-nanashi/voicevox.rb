@@ -81,9 +81,9 @@ jobs:
       - name: Download requirements
         if: steps.load-cache.outputs.cache-hit != 'true'
         run: |
-          wget -q https://github.com/microsoft/onnxruntime/releases/download/v1.11.1/onnxruntime-linux-x64-1.11.1.tgz
-          tar -xvf onnxruntime-linux-x64-1.11.1.tgz
-          cp onnxruntime-linux-x64-1.11.1/lib/*.so* vv_lib
+          wget -q https://github.com/microsoft/onnxruntime/releases/download/v1.13.1/onnxruntime-linux-x64-1.13.1.tgz
+          tar -xvf onnxruntime-linux-x64-1.13.1.tgz
+          cp onnxruntime-linux-x64-1.13.1/lib/*.so* vv_lib
           wget -q https://jaist.dl.sourceforge.net/project/open-jtalk/Dictionary/open_jtalk_dic-1.11/open_jtalk_dic_utf_8-1.11.tar.gz
           tar -xvf open_jtalk_dic_utf_8-1.11.tar.gz
 
