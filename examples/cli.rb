@@ -7,12 +7,7 @@ require "optparse"
 
 def main(use_gpu:, text:, speaker_id:, cpu_num_threads:, openjtalk_dict:)
   # コアの初期化
-  vv = Voicevox.new
-
-  vv.init(use_gpu: use_gpu, threads: cpu_num_threads, load_all_models: false)
-
-  # openjtalk辞書のロード
-  vv.load_openjtalk_dict(openjtalk_dict)
+  vv = Voicevox.new(openjtalk_dict, use_gpu: use_gpu, threads: cpu_num_threads, load_all_models: false)
 
   # 話者のロード
   vv.load_model(speaker_id)
