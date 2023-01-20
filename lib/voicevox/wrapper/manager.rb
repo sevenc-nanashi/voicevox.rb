@@ -36,7 +36,7 @@ class Voicevox
   # @param [String] openjtalk_dict_path OpenJTalkの辞書へのパス。
   # @param [:cpu, :gpu, :auto] acceleration_mode ハードウェアアクセラレーションモード。:autoを指定するとコア側で自動的に決定されます。
   # @param [Integer] cpu_num_threads スレッド数。省略する、または0を渡すとコア側で自動的に決定されます。
-  # @param [Boolean] load_all_models 全てのモデルを読み込むかどうか。省略するとtrueになります。
+  # @param [Boolean] load_all_models 全てのモデルを読み込むかどうか。省略するとfalseになります。
   #
   def initialize(
     openjtalk_dict_path,

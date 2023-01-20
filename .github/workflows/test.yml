@@ -5,90 +5,33 @@ on:
       - main
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-        with:
-          repository: "voicevox/voicevox_core"
-      - name: Set up Rust
-        uses: actions-rs/toolchain@v1
-
-      - name: Cache
-        uses: actions/cache@v3
-        with:
-          path: target
-          key: ${{ runner.os }}-target-v1-${{ hashFiles('Cargo.lock') }}
-
-      - name: Build
-        run: |
-          cargo build --release
-
-      - name: Upload
-        uses: actions/upload-artifact@v2
-        with:
-          name: voicevox_core
-          path: target/release/*.so
-
   test:
     runs-on: ubuntu-latest
-    needs:
-      - build
+    strategy:
+      matrix:
+        ruby_version:
+          - "3.0"
+          - "3.1"
+          - "3.2"
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      # - name: Fetch release
-      #   run: |
-      #     curl https://api.github.com/repos/voicevox/voicevox_core/releases/latest \
-      #       -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
-      #       -o latest_release.json
-      #     jq -r '.assets[] | select(.name | contains("voicevox_core-linux-x64-cpu-")) | .browser_download_url' latest_release.json > latest_release_url.txt
-      #     jq -r '.assets[] | select(.name | contains("voicevox_core-linux-x64-cpu-")) | .updated_at' latest_release.json > latest_release_date.txt
-
-      # - name: Load cache
-      #   id: load-cache
-      #   uses: actions/cache@v3
-      #   with:
-      #     path: vv_lib
-      #     # NOTE: 最後のv1はインクリメントしてキャッシュを消す用
-      #     # 更新時刻とURLが一致している場合は同一とみなす
-      #     key: ${{ runner.os }}-${{ hashFiles('./latest_release_url.txt') }}-${{ hashFiles('./latest_release_date.txt') }}-v1
-
-      # - name: Download voicevox_core
-      #   if: steps.load-cache.outputs.cache-hit != 'true'
-      #   run: |
-      #     cat latest_release_url.txt | \
-      #       xargs wget -qO voicevox_core.zip
-      #     unzip voicevox_core.zip
-      #     mkdir vv_lib
-      #     cp ./voicevox_core-linux-x64-cpu-*/*.so vv_lib
-
-      - name: Download libvoicevox_core.so
-        uses: actions/download-artifact@v2
-        with:
-          name: voicevox_core
-          path: vv_lib
-
-      - name: Download requirements
-        if: steps.load-cache.outputs.cache-hit != 'true'
+      - name: Download voicevox core
         run: |
-          wget -q https://github.com/microsoft/onnxruntime/releases/download/v1.11.1/onnxruntime-linux-x64-1.11.1.tgz
-          tar -xvf onnxruntime-linux-x64-1.11.1.tgz
-          cp onnxruntime-linux-x64-1.11.1/lib/*.so* vv_lib
-          wget -q https://jaist.dl.sourceforge.net/project/open-jtalk/Dictionary/open_jtalk_dic-1.11/open_jtalk_dic_utf_8-1.11.tar.gz
-          tar -xvf open_jtalk_dic_utf_8-1.11.tar.gz
+          curl https://raw.githubusercontent.com/VOICEVOX/voicevox_core/main/scripts/downloads/download.sh -O
+          chmod u+x ./download.sh
+          ./download.sh -v 0.14.0-preview.3
 
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: "3.0"
+          ruby-version: ${{ matrix.ruby_version }}
           bundler-cache: true
 
       - name: Run Rspec
         run: |
           bundle exec rake spec
         env:
-          LD_LIBRARY_PATH: vv_lib
-          VOICEVOX_OPEN_JTALK_DICT: open_jtalk_dic_utf_8-1.11
+          LD_LIBRARY_PATH: voicevox_core
+          VOICEVOX_OPEN_JTALK_DICT: voicevox_core/open_jtalk_dic_utf_8-1.11
