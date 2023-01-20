@@ -65,6 +65,7 @@ class Voicevox
 
     Voicevox.process_result Voicevox::Core.voicevox_initialize(options)
     @acceleration_mode = Voicevox::Core.voicevox_is_gpu_mode ? :gpu : :cpu
+    at_exit { Voicevox::Core.voicevox_finalize } unless self.class.initialized
     self.class.initialized = true
   end
 
@@ -122,8 +123,8 @@ class Voicevox
       Voicevox::Core.voicevox_tts(text, id, options, size_ptr, return_ptr)
     )
     data_ptr = return_ptr.read_pointer
-    size_ptr.free
     data = data_ptr.read_string(size_ptr.read_int)
+    size_ptr.free
     Voicevox::Core.voicevox_wav_free(data_ptr)
     data
   end

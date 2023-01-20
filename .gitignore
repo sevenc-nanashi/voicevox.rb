@@ -11,3 +11,6 @@ voicevox_core-*
 *.wav
 Gemfile.lock
 .gem_rbs_collection
+voicevox_core
+download.ps1
+download.sh
