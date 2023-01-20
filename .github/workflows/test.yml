@@ -21,7 +21,7 @@ jobs:
         run: |
           curl https://raw.githubusercontent.com/VOICEVOX/voicevox_core/main/scripts/downloads/download.sh -O
           chmod u+x ./download.sh
-          ./download.sh -v 0.14.0-preview.3
+          ./download.sh -v 0.14.0-preview.4
 
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
