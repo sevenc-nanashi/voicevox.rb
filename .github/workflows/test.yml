@@ -37,4 +37,5 @@ jobs:
           bundle exec rake spec
         env:
           LD_LIBRARY_PATH: voicevox_core
+          RUBY_DLL_PATH: voicevox_core
           VOICEVOX_OPEN_JTALK_DICT: voicevox_core/open_jtalk_dic_utf_8-1.11
