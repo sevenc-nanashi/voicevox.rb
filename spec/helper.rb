@@ -9,7 +9,8 @@ RSpec.shared_context "voicevox_wrapper" do
         ENV.fetch("VOICEVOX_OPEN_JTALK_DICT") do
           raise "Set environment variable VOICEVOX_OPEN_JTALK_DICT"
         end,
-        acceleration_mode: :cpu,
+        acceleration_mode:
+          ENV.fetch("VOICEVOX_USE_GPU", "false") == "true" ? :gpu : :cpu,
         load_all_models: false
       )
     vv.load_model 1

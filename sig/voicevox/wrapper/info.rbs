@@ -21,4 +21,6 @@ class Voicevox
   end
 
   def self.gpu_supported?: -> bool
+
+  def self.core_version: -> String
 end

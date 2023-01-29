@@ -100,5 +100,14 @@ class Voicevox
     def gpu_supported?
       Voicevox.supported_devices.cuda || Voicevox.supported_devices.dml
     end
+
+    #
+    # コアのバージョンを取得します。
+    #
+    # @return [String] コアのバージョン。
+    #
+    def core_version
+      Voicevox::Core.voicevox_get_version
+    end
   end
 end

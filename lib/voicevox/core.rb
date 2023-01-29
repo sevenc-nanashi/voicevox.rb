@@ -79,6 +79,8 @@ class Voicevox
 
     attach_function :voicevox_get_supported_devices_json, [], :string
 
+    attach_function :voicevox_get_version, [], :string
+
     attach_function :voicevox_predict_duration,
                     %i[int64 pointer int32 pointer],
                     :voicevox_result_code
@@ -149,7 +151,6 @@ class Voicevox
                     [:voicevox_result_code],
                     :string
   rescue LoadError
-    $e1 = $ERROR_INFO
     module Old
       extend FFI::Library
       ffi_lib %w[core.dll libcore.dylib libcore.so]
@@ -237,14 +238,14 @@ class Voicevox
       attach_function :voicevox_error_result_to_message,
                       [:voicevox_result_code],
                       :string
-    rescue LoadError => e2
+    rescue LoadError
       raise(
         LoadError,
-        "Failed to load voicevox_core! " +
-          "(voicevox_core.dll, libvoicevox_core.so, libvoicevox_core.dylib, " +
-          "core.dll, libcore.so, libcore.dylib)\n" +
-          "Make sure you have installed voicevox_core and its dependencies " +
-          "(such as onnxruntime), and that the voicevox_core shared library " +
+        "Failed to load voicevox_core! " \
+          "(voicevox_core.dll, libvoicevox_core.so, libvoicevox_core.dylib, " \
+          "core.dll, libcore.so, libcore.dylib)\n" \
+          "Make sure you have installed voicevox_core and its dependencies " \
+          "(such as onnxruntime), and that the voicevox_core shared library " \
           "can be found in your library path."
       )
     end
@@ -439,9 +440,9 @@ class Voicevox
       options[:kana] = false
       options
     end
-    warn (
-           "Failed to load new core (voicevox_core.dll, libvoicevox_core.so, libvoicevox_core.dylib), " +
-             "using old core (core.dll, libcore.so, libcore.dylib)."
-         )
+    warn(
+      "Failed to load new core (voicevox_core.dll, libvoicevox_core.so, libvoicevox_core.dylib), " \
+        "using old core (core.dll, libcore.so, libcore.dylib)."
+    )
   end
 end
