@@ -3,7 +3,7 @@
 require_relative "lib/voicevox/version"
 
 Gem::Specification.new do |spec|
-  spec.name = "voicevox"
+  spec.name = "voicevox.rb"
   spec.version = Voicevox::VERSION
   spec.authors = ["sevenc-nanashi"]
   spec.email = ["sevenc7c@sevenc7c.com"]
