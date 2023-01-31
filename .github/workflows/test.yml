@@ -23,13 +23,13 @@ jobs:
       - name: Download voicevox core (Windows)
         if: matrix.platform == 'windows-latest'
         run: |
-          curl https://github.com/VOICEVOX/voicevox_core/releases/download/0.14.0/download-windows-x64.exe -o download.exe
+          curl https://github.com/VOICEVOX/voicevox_core/releases/download/0.14.0/download-windows-x64.exe -Lo download.exe
           ./download.exe
 
       - name: Download voicevox core (Ubuntu)
         if: matrix.platform == 'ubuntu-latest'
         run: |
-          curl https://github.com/VOICEVOX/voicevox_core/releases/download/0.14.0/download-linux-x64 -o download
+          curl https://github.com/VOICEVOX/voicevox_core/releases/download/0.14.0/download-linux-x64 -Lo download
           chmod +x download
           ./download
 
