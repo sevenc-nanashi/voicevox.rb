@@ -20,11 +20,18 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Download voicevox core
+      - name: Download voicevox core (Windows)
+        if: matrix.platform == 'windows-latest'
         run: |
-          curl https://raw.githubusercontent.com/VOICEVOX/voicevox_core/main/scripts/downloads/download.sh -O
-          chmod u+x ./download.sh
-          ./download.sh -v 0.14.0-preview.4
+          curl https://github.com/VOICEVOX/voicevox_core/releases/download/0.14.0/download-windows-x64.exe -o download.exe
+          ./download.exe
+
+      - name: Download voicevox core (Ubuntu)
+        if: matrix.platform == 'ubuntu-latest'
+        run: |
+          curl https://github.com/VOICEVOX/voicevox_core/releases/download/0.14.0/download-linux-x64 -o download
+          chmod +x download
+          ./download
 
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
