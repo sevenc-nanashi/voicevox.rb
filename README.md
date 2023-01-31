@@ -35,7 +35,11 @@ Voicevox::Coreに[ffi/ffi](https://github.com/ffi/ffi)で包んだだけのAPI�
 
 ## インストール
 
-このGemはRubygemsに登録されていません。[specific_install](https://rubygems.org/gems/specific_install)などを使ってインストールしてください。
+```
+gem install voicevox.rb
+
+bundle add voicevox.rb
+```
 
 ## ライセンス
 
