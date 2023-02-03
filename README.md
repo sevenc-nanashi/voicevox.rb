@@ -1,4 +1,5 @@
 # voicevox.rb / voicevox_coreの非公式ラッパー
+[![Gem](https://img.shields.io/gem/dt/voicevox.rb?logo=rubygems&logoColor=fff&label=Downloads)](https://rubygems.org/gems/voicevox.rb)
 
 voicevox.rbは[VOICEVOX/voicevox_core](https://github.com/VOICEVOX/voicevox_core)の非公式ラッパーです。
 
