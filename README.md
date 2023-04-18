@@ -17,7 +17,8 @@ File.write("#{__dir__}/outputs/#{Process.pid}_#{i}.wav", data, mode: "wb")
 
 ## 使い方
 
-環境に合ったvoicevox_coreのライブラリをダウンロードし、Rubyから参照できるようにしてください。  
+環境に合ったvoicevox_coreのライブラリをダウンロードし、Rubyから参照できるようにしてください。
+[voicevox_coreの環境構築ガイド](https://github.com/VOICEVOX/voicevox_core#%E7%92%B0%E5%A2%83%E6%A7%8B%E7%AF%89)も参考にしてください。
 
 Windows環境の場合は、[RubyInstaller2のwiki](https://github.com/oneclick/rubyinstaller2/wiki/For-gem-developers#-dll-loading)を参照してください。
 
