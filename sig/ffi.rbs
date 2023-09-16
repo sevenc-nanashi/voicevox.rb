@@ -1,16 +1,21 @@
 module FFI
   module Library
-    def ffi_lib: (Array[String] | String) -> void
+    def ffi_lib: (String) -> void
+               | (Array[String]) -> void
 
     def enum: (Symbol, Array[Symbol | Integer]) -> void
+            | (Class, Symbol, Array[Symbol | Integer]) -> void
+  end
 
-    def attach_function: (Symbol, Array[Symbol], Symbol) -> void
+  class NativeType
+    class INT32
+    end
   end
 
   class Pointer
   end
 
-  class MemoryPointer < Pointer
-    def initialize: (Symbol `type`) -> void
+  class Struct
+    def self.layout: (Hash[Symbol, Symbol]) -> void
   end
 end

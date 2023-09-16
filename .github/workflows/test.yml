@@ -10,7 +10,6 @@ jobs:
       matrix:
         ruby_version:
           - "3.0"
-          - "3.1"
           - "3.2"
         platform:
           - "ubuntu-latest"
@@ -20,18 +19,13 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Download voicevox core (Windows)
-        if: matrix.platform == 'windows-latest'
-        run: |
-          curl https://github.com/VOICEVOX/voicevox_core/releases/download/0.14.0/download-windows-x64.exe -Lo download.exe
-          ./download.exe
-
-      - name: Download voicevox core (Ubuntu)
-        if: matrix.platform == 'ubuntu-latest'
-        run: |
-          curl https://github.com/VOICEVOX/voicevox_core/releases/download/0.14.0/download-linux-x64 -Lo download
-          chmod +x download
-          ./download
+      - name: Download voicevox core
+        id: download-voicevox-core
+        uses: sevenc-nanashi/setup-voicevox@v0.1
+        with:
+          download-item: core
+          path: voicevox_core
+          version: 0.15.0-preview.8
 
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
@@ -43,6 +37,5 @@ jobs:
         run: |
           bundle exec rake spec
         env:
-          LD_LIBRARY_PATH: voicevox_core
-          RUBY_DLL_PATH: voicevox_core
-          VOICEVOX_OPEN_JTALK_DICT: voicevox_core/open_jtalk_dic_utf_8-1.11
+          VOICEVOX_DLL_PATH: ${{ steps.download-voicevox-core.outputs.entrypoint }}
+          VOICEVOX_OPEN_JTALK_DIC_DIR: ${{ steps.download-voicevox-core.outputs.open_jtalk_dic_dir }}

@@ -5,11 +5,14 @@ require_relative "voicevox/version"
 require_relative "voicevox/error"
 require_relative "voicevox/wrapper/utils"
 require_relative "voicevox/wrapper/info"
-require_relative "voicevox/wrapper/manager"
 require_relative "voicevox/wrapper/audio_query"
+require_relative "voicevox/wrapper/voice_model"
+require_relative "voicevox/wrapper/open_jtalk"
+require_relative "voicevox/wrapper/user_dict"
+require_relative "voicevox/wrapper/synthesizer"
 
 #
 # voicevox_coreのラッパー。
 #
-class Voicevox # rubocop:disable Lint/EmptyClass
+module Voicevox
 end

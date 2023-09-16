@@ -17,3 +17,5 @@ gem "syntax_tree", "~> 5.2"
 gem "syntax_tree-rbs", "~> 0.5.1"
 
 gem "rspec", "~> 3.11"
+
+gem "typeprof", "~> 0.21.7"

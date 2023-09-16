@@ -1,9 +1,0 @@
-class Voicevox
-  def self.initialize_required: -> void
-
-  def self.failed: -> void
-
-  def process_result: (Voicevox::Core::voicevox_result_code) -> void
-
-  def voicevox_path: -> String?
-end

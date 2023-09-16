@@ -2,7 +2,7 @@
 
 require "objspace"
 
-class Voicevox
+module Voicevox
   #
   # Voicevox関連のエラー。
   #
@@ -36,44 +36,74 @@ class Voicevox
       end
     end
 
-    class NotLoadedOpenjtalkDict < Voicevox::CoreError
-      @code = :voicevox_result_not_loaded_openjtalk_dict
+    class NotLoadedOpenjtalkDict < CoreError
+      @code = :voicevox_result_not_loaded_openjtalk_dict_error
     end
-    class FailedLoadModel < Voicevox::CoreError
-      @code = :voicevox_result_failed_load_model
+    class LoadModel < CoreError
+      @code = :voicevox_result_load_model_error
     end
-    class FailedGetSupportedDevices < Voicevox::CoreError
-      @code = :voicevox_result_failed_get_supported_devices
+    class GetSupportedDevices < CoreError
+      @code = :voicevox_result_get_supported_devices_error
     end
-    class CantGpuSupport < Voicevox::CoreError
-      @code = :voicevox_result_cant_gpu_support
+    class GpuSupport < CoreError
+      @code = :voicevox_result_gpu_support_error
     end
-    class FailedLoadMetas < Voicevox::CoreError
-      @code = :voicevox_result_failed_load_metas
+    class LoadMetas < CoreError
+      @code = :voicevox_result_load_metas_error
     end
-    class UninitializedStatus < Voicevox::CoreError
-      @code = :voicevox_result_uninitialized_status
+    class InvalidStyleId < CoreError
+      @code = :voicevox_result_invalid_style_id_error
     end
-    class InvalidSpeakerId < Voicevox::CoreError
-      @code = :voicevox_result_invalid_speaker_id
+    class InvalidModelId < CoreError
+      @code = :voicevox_result_invalid_model_id_error
     end
-    class InvalidModelIndex < Voicevox::CoreError
-      @code = :voicevox_result_invalid_model_index
+    class Inference < CoreError
+      @code = :voicevox_result_inference_error
     end
-    class InferenceFailed < Voicevox::CoreError
-      @code = :voicevox_result_inference_failed
+    class ExtractFullContextLabel < CoreError
+      @code = :voicevox_result_extract_full_context_label_error
     end
-    class FailedExtractFullContextLabel < Voicevox::CoreError
-      @code = :voicevox_result_failed_extract_full_context_label
+    class InvalidUtf8Input < CoreError
+      @code = :voicevox_result_invalid_utf8_input_error
     end
-    class InvalidUtf8Input < Voicevox::CoreError
-      @code = :voicevox_result_invalid_utf8_input
+    class ParseKana < CoreError
+      @code = :voicevox_result_parse_kana_error
     end
-    class FailedParseKana < Voicevox::CoreError
-      @code = :voicevox_result_failed_parse_kana
+    class InvalidAudioQuery < CoreError
+      @code = :voicevox_result_invalid_audio_query_error
     end
-    class InvalidAudioQuery < Voicevox::CoreError
-      @code = :voicevox_result_invalid_audio_query
+    class InvalidAccentPhrase < CoreError
+      @code = :voicevox_result_invalid_accent_phrase_error
+    end
+    class OpenFile < CoreError
+      @code = :voicevox_result_open_file_error
+    end
+    class VvmModelRead < CoreError
+      @code = :voicevox_result_vvm_model_read_error
+    end
+    class AlreadyLoadedModel < CoreError
+      @code = :voicevox_result_already_loaded_model_error
+    end
+    class UnloadedModel < CoreError
+      @code = :voicevox_result_unloaded_model_error
+    end
+    class LoadUserDict < CoreError
+      @code = :voicevox_result_load_user_dict_error
+    end
+    class SaveUserDict < CoreError
+      @code = :voicevox_result_save_user_dict_error
+    end
+    class UnknownUserDictWord < CoreError
+      @code = :voicevox_result_unknown_user_dict_word_error
+    end
+    class UseUserDict < CoreError
+      @code = :voicevox_result_use_user_dict_error
+    end
+    class InvalidUserDictWord < CoreError
+      @code = :voicevox_result_invalid_user_dict_word_error
+    end
+    class InvalidUuid < CoreError
+      @code = :voicevox_result_invalid_uuid_error
     end
   end
 end

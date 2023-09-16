@@ -1,69 +1,7 @@
 # frozen_string_literal: true
 require "json"
 
-class Voicevox
-  #
-  # テキストからAudioQueryを生成します。
-  #
-  # @param [String] text 生成するAudioQueryのテキスト。
-  # @param [Voicevox::CharacterInfo, Voicevox::StyleInfo, Integer] speaker 話者、または話者のID。
-  # @param [Boolean] kana textをAquesTalkライクな記法として解釈するかどうか。デフォルトはfalse。
-  #
-  # @return [Voicevox::AudioQuery] 生成されたAudioQuery。
-  #
-  # @see Voicevox#synthesis
-  #
-  def audio_query(text, speaker, kana: false)
-    options = Voicevox::Core.voicevox_make_default_audio_query_options
-    options[:kana] = kana
-    speaker_id = speaker.is_a?(Integer) ? speaker : speaker.id
-    load_model speaker_id
-    return_ptr = FFI::MemoryPointer.new(:pointer)
-    Voicevox.process_result Voicevox::Core.voicevox_audio_query(
-                              text,
-                              speaker_id,
-                              options,
-                              return_ptr
-                            )
-    return_str_ptr = return_ptr.read_pointer
-    json = return_str_ptr.read_string
-    Voicevox::Core.voicevox_audio_query_json_free return_str_ptr
-
-    AudioQuery.new JSON.parse(json, symbolize_names: true)
-  end
-
-  #
-  # AudioQueryから音声を生成します。
-  #
-  # @param [AudioQuery] query AudioQuery。
-  # @param [Voicevox::CharacterInfo, Voicevox::StyleInfo, Integer] speaker 話者、または話者のID。
-  # @param [Boolran] enable_interrogative_upspeak 疑問文の調整を有効にするかどうか。デフォルトはtrue。
-  #
-  # @return [String] 生成された音声のwavデータ。
-  #
-  def synthesis(query, speaker, enable_interrogative_upspeak: true)
-    size_ptr = FFI::MemoryPointer.new(:int)
-    return_ptr = FFI::MemoryPointer.new(:pointer)
-    id = speaker.is_a?(Integer) ? speaker : speaker.id
-    load_model id
-    options = Voicevox::Core::VoicevoxSynthesisOptions.new
-    options[:enable_interrogative_upspeak] = enable_interrogative_upspeak
-    Voicevox.process_result(
-      Voicevox::Core.voicevox_synthesis(
-        query.to_json,
-        id,
-        options,
-        size_ptr,
-        return_ptr
-      )
-    )
-    data_ptr = return_ptr.read_pointer
-    size_ptr.free
-    data = data_ptr.read_string(size_ptr.read_int)
-    Voicevox::Core.voicevox_wav_free(data_ptr)
-    data
-  end
-
+module Voicevox
   #
   # 音声合成用のクエリ。
   #
@@ -89,6 +27,7 @@ class Voicevox
     # @return [String] AquesTalkライクな読み仮名。
     attr_reader :kana
 
+    # @private
     def initialize(query)
       @accent_phrases = query[:accent_phrases].map { |ap| AccentPhrase.new ap }
       @speed_scale = query[:speed_scale]
@@ -100,6 +39,15 @@ class Voicevox
       @output_sampling_rate = query[:output_sampling_rate]
       @output_stereo = query[:output_stereo]
       @kana = query[:kana]
+    end
+
+    #
+    # JSONからAudioQueryを生成します。
+    # @param [String] json AudioQueryのJSON。
+    # @return [AccentPhrase]
+    #
+    def self.from_json(json)
+      new JSON.parse(json, symbolize_names: true)
     end
 
     #
@@ -122,6 +70,8 @@ class Voicevox
       }
     end
 
+    alias to_h to_hash
+
     #
     # AudioQueryをjsonにします。
     #
@@ -130,6 +80,19 @@ class Voicevox
     def to_json(...)
       to_hash.to_json(...)
     end
+
+    # @private
+    def eql?(other)
+      to_hash.eql?(other.to_hash)
+    end
+
+    # @private
+    def hash
+      to_hash.hash
+    end
+
+    # @private
+    alias == eql?
   end
 
   #
@@ -146,11 +109,21 @@ class Voicevox
     attr_reader :is_interrogative
     alias interrogative? is_interrogative
 
+    # @private
     def initialize(query)
       @moras = query[:moras].map { |ap| Mora.new ap }
       @accent = query[:accent]
       @pause_mora = query[:pause_mora] && Mora.new(query[:pause_mora])
       @is_interrogative = query[:is_interrogative]
+    end
+
+    #
+    # JSONからAccentPhraseを生成します。
+    # @param [String] json AccentPhraseの情報を持つJSON。
+    # @return [AccentPhrase]
+    #
+    def self.from_json(json)
+      new JSON.parse(json, symbolize_names: true)
     end
 
     #
@@ -166,6 +139,30 @@ class Voicevox
         is_interrogative: @is_interrogative
       }
     end
+
+    alias to_h to_hash
+
+    #
+    # AccentPhraseをJSONにします。
+    #
+    # @return [String]
+    #
+    def to_json(...)
+      to_hash.to_json(...)
+    end
+
+    # @private
+    def eql?(other)
+      other.is_a?(self.class) && other.to_hash == to_hash
+    end
+
+    # @private
+    def hash
+      to_hash.hash
+    end
+
+    # @private
+    alias == eql?
 
     #
     # モーラ（子音＋母音）ごとの情報。
@@ -208,6 +205,34 @@ class Voicevox
           pitch: @pitch
         }
       end
+
+      alias to_h to_hash
+
+      #
+      # MoraをJSONにします。
+      # @return [String]
+      #
+      def to_json(...)
+        to_hash.to_json(...)
+      end
+
+      # @private
+      def eql?(other)
+        @text == other.text &&
+          @consonant == other.consonant &&
+          @consonant_length == other.consonant_length &&
+          @vowel == other.vowel &&
+          @vowel_length == other.vowel_length &&
+          @pitch == other.pitch
+      end
+
+      # @private
+      def hash
+        to_hash.hash
+      end
+
+      # @private
+      alias == eql?
     end
   end
 end
