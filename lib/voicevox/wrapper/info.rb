@@ -2,112 +2,29 @@
 
 require "json"
 
-class Voicevox
-  # サポートされているデバイスを表すStruct。
-  SupportedDevices = Struct.new(:cpu, :cuda, :dml, keyword_init: true)
+module Voicevox
+  module_function
 
-  # キャラクターの情報を表すStruct。
-  CharacterInfo =
-    Struct.new(:name, :styles, :speaker_uuid, :version, keyword_init: true) do
-      #
-      # キャラクターの最初のスタイルのIDを返します。
-      # @note ほとんどの場合はノーマルになります。
-      #
-      # @return [Integer] スタイルのID。
-      #
-      def id
-        styles[0].id
-      end
+  def core_version
+    @core_version ||= Voicevox::Core.voicevox_get_version
+  end
 
-      #
-      # キャラクターのスタイルが全てロードされているかを返します。
-      #
-      # @return [Boolean] 全てロードされている場合はtrue、そうでない場合はfalse。
-      #
-      def loaded?
-        styles.map(&:loaded?).all?
-      end
+  SupportedDevices = Struct.new(:cpu, :cuda, :dml)
 
-      #
-      # キャラクターのスタイルを全てロードします。
-      #
-      # @return [void]
-      #
-      def load
-        Voicevox.initialize_required
-        styles.map(&:load)
-      end
+  def supported_devices
+    if @supported_devices.nil?
+      pointer = FFI::MemoryPointer.new(:pointer)
+      Voicevox::Core.voicevox_create_supported_devices_json(pointer)
+      supported_devices =
+        JSON.parse(pointer.read_pointer.read_string, symbolize_names: true)
+
+      @supported_devices =
+        SupportedDevices.new(
+          supported_devices[:cpu],
+          supported_devices[:cuda],
+          supported_devices[:dml]
+        )
     end
-  StyleInfo =
-    Struct.new(:name, :id, keyword_init: true) do
-      #
-      # スタイルがロードされているかを返します。
-      #
-      # @return [Boolean] ロードされている場合はtrue、そうでない場合はfalse。
-      #
-      def loaded?
-        Voicevox::Core.is_model_loaded(id)
-      end
-
-      #
-      # スタイルをロードします。
-      #
-      # @return [void]
-      #
-      def load
-        Voicevox.initialize_required
-        Voicevox.process_result Voicevox::Core.voicevox_load_model(id)
-      end
-    end
-
-  class << self
-    #
-    # サポートしているデバイスを取得します。
-    #
-    # @return [Voicevox::SupportedDevices] サポートしているデバイス。
-    #
-    def supported_devices
-      SupportedDevices.new(
-        **JSON.parse(Voicevox::Core.voicevox_get_supported_devices_json)
-      )
-    end
-
-    #
-    # キャラクターの一覧を取得します。
-    #
-    # @return [Array<CharacterInfo>] キャラクターの一覧。
-    #
-    def characters
-      JSON
-        .parse(Voicevox::Core.voicevox_get_metas_json)
-        .map do |meta|
-          CharacterInfo.new(
-            **{
-              **meta,
-              "styles" => meta["styles"].map { |style| StyleInfo.new(**style) }
-            }
-          )
-        end
-    end
-
-    #
-    # GPUをサポートしているかを返します。
-    #
-    # @note CUDA、またはDirectMLが使える場合にtrueを返します。
-    #
-    # @return [Boolean] GPUをサポートしているかどうか。
-    #
-    def gpu_supported?
-      Voicevox.supported_devices.cuda || Voicevox.supported_devices.dml
-    end
-
-    #
-    # コアのバージョンを取得します。
-    #
-    # @return [String] コアのバージョン。
-    #
-    def core_version
-      Voicevox::Core.voicevox_get_version
-    end
+    @supported_devices
   end
 end

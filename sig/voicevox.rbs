@@ -1,3 +1,6 @@
-class Voicevox
+# rubocop:disable Naming/ConstantName
+module Voicevox
   VERSION: String
+
+  def core_version: -> String
 end

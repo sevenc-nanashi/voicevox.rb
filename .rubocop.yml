@@ -19,3 +19,6 @@ Style/GuardClause:
 
 Naming/MethodParameterName:
   Enabled: false
+
+Lint/MissingSuper:
+  Enabled: false

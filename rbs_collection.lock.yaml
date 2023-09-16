@@ -1,17 +1,18 @@
 ---
 sources:
-- name: ruby/gem_rbs_collection
+- type: git
+  name: ruby/gem_rbs_collection
+  revision: c1c60a977dba802154336875afbe382013502ed2
   remote: https://github.com/ruby/gem_rbs_collection.git
-  revision: main
   repo_dir: gems
 path: ".gem_rbs_collection"
 gems:
 - name: activesupport
-  version: '6.0'
+  version: '7.0'
   source:
     type: git
     name: ruby/gem_rbs_collection
-    revision: e920cbaa517738b75f3b1e70223a0e51da80d5aa
+    revision: c1c60a977dba802154336875afbe382013502ed2
     remote: https://github.com/ruby/gem_rbs_collection.git
     repo_dir: gems
 - name: ast
@@ -19,15 +20,39 @@ gems:
   source:
     type: git
     name: ruby/gem_rbs_collection
-    revision: e920cbaa517738b75f3b1e70223a0e51da80d5aa
+    revision: c1c60a977dba802154336875afbe382013502ed2
     remote: https://github.com/ruby/gem_rbs_collection.git
     repo_dir: gems
+- name: concurrent-ruby
+  version: '1.1'
+  source:
+    type: git
+    name: ruby/gem_rbs_collection
+    revision: c1c60a977dba802154336875afbe382013502ed2
+    remote: https://github.com/ruby/gem_rbs_collection.git
+    repo_dir: gems
+- name: csv
+  version: '0'
+  source:
+    type: stdlib
+- name: date
+  version: '0'
+  source:
+    type: stdlib
+- name: fileutils
+  version: '0'
+  source:
+    type: stdlib
+- name: forwardable
+  version: '0'
+  source:
+    type: stdlib
 - name: i18n
   version: '1.10'
   source:
     type: git
     name: ruby/gem_rbs_collection
-    revision: e920cbaa517738b75f3b1e70223a0e51da80d5aa
+    revision: c1c60a977dba802154336875afbe382013502ed2
     remote: https://github.com/ruby/gem_rbs_collection.git
     repo_dir: gems
 - name: io-console
@@ -43,10 +68,22 @@ gems:
   source:
     type: git
     name: ruby/gem_rbs_collection
-    revision: e920cbaa517738b75f3b1e70223a0e51da80d5aa
+    revision: c1c60a977dba802154336875afbe382013502ed2
     remote: https://github.com/ruby/gem_rbs_collection.git
     repo_dir: gems
+- name: logger
+  version: '0'
+  source:
+    type: stdlib
 - name: minitest
+  version: '0'
+  source:
+    type: stdlib
+- name: monitor
+  version: '0'
+  source:
+    type: stdlib
+- name: mutex_m
   version: '0'
   source:
     type: stdlib
@@ -55,7 +92,7 @@ gems:
   source:
     type: git
     name: ruby/gem_rbs_collection
-    revision: e920cbaa517738b75f3b1e70223a0e51da80d5aa
+    revision: c1c60a977dba802154336875afbe382013502ed2
     remote: https://github.com/ruby/gem_rbs_collection.git
     repo_dir: gems
 - name: rainbow
@@ -63,18 +100,10 @@ gems:
   source:
     type: git
     name: ruby/gem_rbs_collection
-    revision: e920cbaa517738b75f3b1e70223a0e51da80d5aa
+    revision: c1c60a977dba802154336875afbe382013502ed2
     remote: https://github.com/ruby/gem_rbs_collection.git
     repo_dir: gems
-- name: steep
-  version: 1.1.1
-  source:
-    type: rubygems
-- name: monitor
-  version: '0'
-  source:
-    type: stdlib
-- name: date
+- name: securerandom
   version: '0'
   source:
     type: stdlib
@@ -82,11 +111,11 @@ gems:
   version: '0'
   source:
     type: stdlib
-- name: logger
-  version: '0'
+- name: steep
+  version: 1.4.0
   source:
-    type: stdlib
-- name: mutex_m
+    type: rubygems
+- name: strscan
   version: '0'
   source:
     type: stdlib
@@ -94,7 +123,4 @@ gems:
   version: '0'
   source:
     type: stdlib
-- name: pathname
-  version: '0'
-  source:
-    type: stdlib
+gemfile_lock_path: Gemfile.lock
